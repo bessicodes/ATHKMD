@@ -22,8 +22,20 @@ export const SiteContentProvider = ({ children }: { children: React.ReactNode })
     };
 
     load();
+    const periodicRefresh = window.setInterval(load, 45_000);
+    const refreshOnFocus = () => {
+      if (document.visibilityState === "visible") load();
+    };
+    const refreshOnOnline = () => load();
+
+    document.addEventListener("visibilitychange", refreshOnFocus);
+    window.addEventListener("online", refreshOnOnline);
+
     return () => {
       cancelled = true;
+      window.clearInterval(periodicRefresh);
+      document.removeEventListener("visibilitychange", refreshOnFocus);
+      window.removeEventListener("online", refreshOnOnline);
     };
   }, []);
 

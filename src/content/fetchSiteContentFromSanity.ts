@@ -39,6 +39,7 @@ const VALID_ICONS = new Set<IconKey>([
 ]);
 
 const QUERY = `*[_type == "siteSettings"][0]{
+  "cacheBust": $cacheBust,
   socials{instagram,tiktok,youtube,email},
   navItems[]{href,label},
   storySections[]{id,label},
@@ -80,7 +81,12 @@ export const fetchSiteContentFromSanity = async (): Promise<Partial<SiteContent>
     perspective: "published",
   });
 
-  const data = await client.fetch<SanitySiteSettings | null>(QUERY);
+  const data = await client.fetch<SanitySiteSettings | null>(
+    QUERY,
+    // Add a throwaway param to avoid stubborn intermediary caches.
+    { cacheBust: Date.now() },
+    { cache: "no-store" as RequestCache }
+  );
   if (!data) return null;
 
   return {
