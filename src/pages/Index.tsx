@@ -7,7 +7,6 @@ import { Marquee } from "@/components/Marquee";
 import { Footer } from "@/components/Footer";
 import { ScrollProgress } from "@/components/ScrollProgress";
 import { InAppBrowserNotice } from "@/components/InAppBrowserNotice";
-import { StoryRail } from "@/components/StoryRail";
 import { CinematicSection } from "@/components/CinematicSection";
 import { SectionTransition } from "@/components/SectionTransition";
 import { IntroLoader } from "@/components/IntroLoader";
@@ -101,7 +100,6 @@ const Index = () => {
       />
       <InAppBrowserNotice />
       <ScrollProgress />
-      <StoryRail sections={storySections} />
       <div
         aria-hidden="true"
         className="pointer-events-none fixed inset-0 -z-10 overflow-hidden"
