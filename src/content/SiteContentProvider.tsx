@@ -15,8 +15,9 @@ export const SiteContentProvider = ({ children }: { children: React.ReactNode })
         const remote = await fetchSiteContentFromSanity();
         if (!remote || cancelled) return;
         setContent((current) => mergeSiteContent(current, remote));
-      } catch {
-        // Silent fallback to local content keeps the site stable.
+      } catch (error) {
+        // Keep the site stable but surface the reason in console for debugging.
+        console.warn("Sanity content fetch failed, using local defaults.", error);
       }
     };
 

@@ -68,15 +68,15 @@ const QUERY = `*[_type == "siteSettings"][0]{
 }`;
 
 export const fetchSiteContentFromSanity = async (): Promise<Partial<SiteContent> | null> => {
-  const projectId = import.meta.env.VITE_SANITY_PROJECT_ID;
-  const dataset = import.meta.env.VITE_SANITY_DATASET;
-  if (!projectId || !dataset) return null;
+  const projectId = import.meta.env.VITE_SANITY_PROJECT_ID?.trim() || "7qw9rsri";
+  const dataset = import.meta.env.VITE_SANITY_DATASET?.trim() || "production";
 
   const client = createClient({
     projectId,
     dataset,
     apiVersion: import.meta.env.VITE_SANITY_API_VERSION ?? "2026-05-01",
-    useCdn: true,
+    // Disable CDN for instant editor-to-site updates after publish.
+    useCdn: false,
     perspective: "published",
   });
 
