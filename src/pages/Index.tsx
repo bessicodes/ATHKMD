@@ -35,6 +35,14 @@ const Index = () => {
   const [activeSection, setActiveSection] = useState("home");
 
   useEffect(() => {
+    if (window.location.hash !== "#home") {
+      const nextUrl = `${window.location.pathname}${window.location.search}#home`;
+      window.history.replaceState(null, "", nextUrl);
+    }
+    window.scrollTo({ top: 0, left: 0, behavior: "auto" });
+  }, []);
+
+  useEffect(() => {
     const onScroll = () => setShowTop(window.scrollY > 600);
     onScroll();
     window.addEventListener("scroll", onScroll, { passive: true });

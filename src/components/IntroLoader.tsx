@@ -2,7 +2,6 @@ import { AnimatePresence, motion } from "framer-motion";
 import { useEffect, useState } from "react";
 import { usePerformanceMode } from "@/hooks/usePerformanceMode";
 
-export const INTRO_SESSION_KEY = "athkmd_intro_seen";
 export const INTRO_DONE_EVENT = "athkmd:intro-done";
 
 export const IntroLoader = ({
@@ -16,26 +15,22 @@ export const IntroLoader = ({
   titleTop: string;
   titleBottom: string;
 }) => {
-  const { isMinimal, isLite } = usePerformanceMode();
+  const { isLite } = usePerformanceMode();
   const [visible, setVisible] = useState(false);
-  const displayDuration = isLite ? 2300 : 3200;
+  const displayDuration = isLite ? 3400 : 4200;
 
   useEffect(() => {
     if (!enabled) return;
     if (typeof window === "undefined") return;
 
-    const alreadySeen = window.sessionStorage.getItem(INTRO_SESSION_KEY) === "1";
-    if (alreadySeen || isMinimal) return;
-
     setVisible(true);
     const timeout = window.setTimeout(() => {
       window.dispatchEvent(new Event(INTRO_DONE_EVENT));
       setVisible(false);
-      window.sessionStorage.setItem(INTRO_SESSION_KEY, "1");
     }, displayDuration);
 
     return () => window.clearTimeout(timeout);
-  }, [displayDuration, enabled, isMinimal]);
+  }, [displayDuration, enabled]);
 
   return (
     <AnimatePresence>

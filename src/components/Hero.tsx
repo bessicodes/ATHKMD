@@ -5,7 +5,7 @@ import logo from "@/assets/logo.png";
 import heroBg from "@/assets/hero-bg.jpg";
 import { useSiteContent } from "@/content/SiteContentProvider";
 import { usePerformanceMode } from "@/hooks/usePerformanceMode";
-import { INTRO_DONE_EVENT, INTRO_SESSION_KEY } from "@/components/IntroLoader";
+import { INTRO_DONE_EVENT } from "@/components/IntroLoader";
 
 const TikTokIcon = ({ size = 18 }: { size?: number }) => (
   <svg width={size} height={size} viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
@@ -34,27 +34,21 @@ export const Hero = () => {
   }, []);
 
   useEffect(() => {
-    if (!effects.enableIntroLoader || isMinimal) {
-      setIntroReady(true);
-      return;
-    }
-
-    const seen = window.sessionStorage.getItem(INTRO_SESSION_KEY) === "1";
-    if (seen) {
+    if (!effects.enableIntroLoader) {
       setIntroReady(true);
       return;
     }
 
     setIntroReady(false);
     const onIntroDone = () => setIntroReady(true);
-    const fallback = window.setTimeout(() => setIntroReady(true), 4200);
+    const fallback = window.setTimeout(() => setIntroReady(true), 5600);
     window.addEventListener(INTRO_DONE_EVENT, onIntroDone);
 
     return () => {
       window.clearTimeout(fallback);
       window.removeEventListener(INTRO_DONE_EVENT, onIntroDone);
     };
-  }, [effects.enableIntroLoader, isMinimal]);
+  }, [effects.enableIntroLoader]);
 
   const bgScale = useTransform(
     scrollYProgress,
