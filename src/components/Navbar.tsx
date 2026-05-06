@@ -49,11 +49,11 @@ export const Navbar = () => {
       initial={{ y: -40, opacity: 0 }}
       animate={{ y: 0, opacity: 1 }}
       transition={{ duration: 0.6, ease: "easeOut" }}
-      className={`fixed top-0 inset-x-0 z-50 transition-all duration-500 ${
+      className={`fixed top-0 inset-x-0 z-50 pt-[env(safe-area-inset-top)] transition-all duration-500 ${
         scrolled ? "bg-background/80 backdrop-blur-xl border-b border-border" : "bg-transparent"
       }`}
     >
-      <nav className="container mx-auto flex items-center justify-between py-4 px-4 md:px-8">
+      <nav className="container mx-auto flex items-center justify-between px-4 py-3 md:px-8 md:py-4">
         <a href="#home" className="group flex items-center">
           <span className="font-display text-[1.05rem] tracking-[0.08em] text-foreground transition-opacity group-hover:opacity-80 sm:text-xl md:text-lg lg:text-xl">
             ATHLETE KINGDOM

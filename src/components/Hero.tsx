@@ -60,7 +60,7 @@ export const Hero = () => {
 
       <motion.div
         style={{ y: contentY }}
-        className="relative z-10 container mx-auto px-6 text-center pt-24 pb-16"
+        className="relative z-10 container mx-auto px-6 pb-16 pt-36 text-center md:pt-24"
       >
         <motion.div
           initial={{ opacity: 0, y: -26, scale: 0.86 }}
@@ -138,7 +138,7 @@ export const Hero = () => {
           initial={{ opacity: 0, y: 10 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.3, duration: 0.8 }}
-          className="text-xs md:text-sm uppercase tracking-[0.5em] text-muted-foreground mb-6"
+          className="mb-4 text-[10px] uppercase tracking-[0.38em] text-muted-foreground sm:mb-6 sm:text-sm sm:tracking-[0.5em]"
         >
           Est. The Home of Sports
         </motion.p>
@@ -147,7 +147,7 @@ export const Hero = () => {
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.4, duration: 1, ease: [0.22, 1, 0.36, 1] }}
-          className="font-display text-[17vw] md:text-[12vw] lg:text-[10rem] leading-[0.85] text-gradient"
+          className="font-display text-[17vw] leading-[0.85] text-foreground md:text-[12vw] md:text-gradient lg:text-[10rem]"
         >
           ATHLETE
           <br />

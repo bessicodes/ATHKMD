@@ -82,10 +82,16 @@
   }
 
   .text-gradient {
-    background: var(--gradient-text);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
+    color: hsl(var(--foreground));
+  }
+
+  @supports ((-webkit-background-clip: text) and (-webkit-text-fill-color: transparent)) {
+    .text-gradient {
+      background: var(--gradient-text);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
   }
 
   .grain::before {
@@ -155,5 +161,11 @@
 
   .ambient-orb-soft {
     opacity: 0.08;
+  }
+
+  .text-gradient {
+    background: none !important;
+    -webkit-text-fill-color: initial !important;
+    color: hsl(var(--foreground));
   }
 }
