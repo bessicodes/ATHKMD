@@ -8,7 +8,7 @@ export const Community = () => {
   const communityBgSrc = visuals.communityBgUrl || communityBg;
 
   return (
-    <section id="community" className="relative overflow-hidden grain py-20 sm:py-24 md:py-40">
+    <section id="community" className="section-fade relative overflow-hidden grain py-20 sm:py-24 md:py-40">
     <div className="absolute inset-0 -z-10">
       <img
         src={communityBgSrc}

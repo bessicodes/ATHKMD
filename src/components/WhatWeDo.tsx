@@ -17,7 +17,8 @@ export const WhatWeDo = () => {
   const { whatWeDo } = useSiteContent();
 
   return (
-    <section id="what-we-do" className="relative grain py-20 sm:py-24 md:py-40">
+    <section id="what-we-do" className="section-fade relative grain py-20 sm:py-24 md:py-40">
+      <div className="pointer-events-none absolute inset-0 -z-10 bg-[radial-gradient(ellipse_at_center,hsl(0_0%_9%)_0%,hsl(0_0%_4%)_70%)] opacity-65" />
       <div className="container mx-auto px-6">
         <div className="mb-14 max-w-3xl md:mb-20">
           <SectionHeading eyebrow={whatWeDo.eyebrow} title={whatWeDo.title} />

@@ -87,7 +87,7 @@ const Index = () => {
     community: `radial-gradient(circle at 50% 35%, hsl(280 68% 52% / ${0.17 * moodStrength}), transparent 58%)`,
     contact: `radial-gradient(circle at 35% 24%, hsl(48 75% 50% / ${0.17 * moodStrength}), transparent 58%)`,
   };
-  const moodBackground = moodBySection[activeSection] ?? moodBySection.home;
+  const activeMoodSection = moodBySection[activeSection] ? activeSection : "home";
 
   return (
     <MotionConfig transition={{ type: "spring", stiffness: 120, damping: 20 }}>
@@ -126,12 +126,19 @@ const Index = () => {
             />
           </>
         ) : null}
-        <motion.div
-          aria-hidden="true"
-          className="absolute inset-0"
-          animate={{ opacity: isMinimal ? 0.22 : 0.45, backgroundImage: moodBackground }}
-          transition={{ duration: 0.9, ease: "easeOut" }}
-        />
+        {Object.entries(moodBySection).map(([sectionId, backgroundImage]) => (
+          <motion.div
+            key={sectionId}
+            aria-hidden="true"
+            className="absolute inset-0"
+            style={{ backgroundImage }}
+            animate={{
+              opacity:
+                sectionId === activeMoodSection ? (isMinimal ? 0.22 : 0.45) : 0,
+            }}
+            transition={{ duration: 1.35, ease: [0.22, 1, 0.36, 1] }}
+          />
+        ))}
       </div>
 
       <Navbar />
