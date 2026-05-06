@@ -135,6 +135,58 @@ export const siteSettings = defineType({
       ],
       validation: (Rule) => Rule.required(),
     }),
+    defineField({
+      name: "visuals",
+      title: "Visual Assets",
+      type: "object",
+      fields: [
+        defineField({
+          name: "logoUrl",
+          title: "Logo URL (optional)",
+          type: "url",
+          description: "Leave empty to use the built-in logo image.",
+        }),
+        defineField({
+          name: "heroBgUrl",
+          title: "Hero Background URL (optional)",
+          type: "url",
+          description: "Leave empty to use the built-in hero background.",
+        }),
+        defineField({
+          name: "communityBgUrl",
+          title: "Community Background URL (optional)",
+          type: "url",
+          description: "Leave empty to use the built-in community background.",
+        }),
+      ],
+    }),
+    defineField({
+      name: "effects",
+      title: "Motion & FX Controls",
+      type: "object",
+      fields: [
+        defineField({
+          name: "enableIntroLoader",
+          title: "Enable Intro Loader",
+          type: "boolean",
+          initialValue: true,
+        }),
+        defineField({
+          name: "enableAmbientOrbs",
+          title: "Enable Ambient Orbs",
+          type: "boolean",
+          initialValue: true,
+        }),
+        defineField({
+          name: "moodShiftStrength",
+          title: "Mood Shift Strength",
+          type: "number",
+          description: "0 = off, 1 = strongest section mood transitions.",
+          initialValue: 0.45,
+          validation: (Rule) => Rule.min(0).max(1),
+        }),
+      ],
+    }),
 
     defineField({
       name: "about",

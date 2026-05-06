@@ -4,13 +4,14 @@ import communityBg from "@/assets/community-bg.jpg";
 import { useSiteContent } from "@/content/SiteContentProvider";
 
 export const Community = () => {
-  const { socials, community } = useSiteContent();
+  const { socials, community, visuals } = useSiteContent();
+  const communityBgSrc = visuals.communityBgUrl || communityBg;
 
   return (
     <section id="community" className="relative overflow-hidden grain py-20 sm:py-24 md:py-40">
     <div className="absolute inset-0 -z-10">
       <img
-        src={communityBg}
+        src={communityBgSrc}
         alt=""
         loading="lazy"
         decoding="async"
@@ -91,7 +92,7 @@ const PrimaryLink = ({ href, children }: { href: string; children: React.ReactNo
     href={href}
     target="_blank"
     rel="noopener noreferrer"
-    className="group inline-flex w-full items-center justify-center gap-2 bg-foreground px-4 py-3 text-[11px] uppercase tracking-[0.16em] text-background transition-all duration-300 hover:bg-foreground/90 hover:gap-4 sm:w-auto md:px-7 md:py-4 md:text-sm md:tracking-[0.2em]"
+    className="interactive-glow group inline-flex w-full items-center justify-center gap-2 bg-foreground px-4 py-3 text-[11px] uppercase tracking-[0.16em] text-background transition-all duration-300 hover:bg-foreground/90 hover:gap-4 sm:w-auto md:px-7 md:py-4 md:text-sm md:tracking-[0.2em]"
   >
     <Youtube size={18} />
     {children}
@@ -104,7 +105,7 @@ const GhostLink = ({ href, children, icon }: { href: string; children: React.Rea
     href={href}
     target="_blank"
     rel="noopener noreferrer"
-    className="inline-flex w-full items-center justify-center gap-2 border border-border px-4 py-3 text-[11px] uppercase tracking-[0.16em] text-foreground transition-all hover:border-foreground/40 hover:bg-secondary sm:w-auto md:px-7 md:py-4 md:text-sm md:tracking-[0.2em]"
+    className="interactive-glow inline-flex w-full items-center justify-center gap-2 border border-border px-4 py-3 text-[11px] uppercase tracking-[0.16em] text-foreground transition-all hover:border-foreground/40 hover:bg-secondary sm:w-auto md:px-7 md:py-4 md:text-sm md:tracking-[0.2em]"
   >
     {icon}
     {children}

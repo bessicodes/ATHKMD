@@ -41,7 +41,7 @@ const SocialIcon = ({ href, label, children }: { href: string; label: string; ch
     target="_blank"
     rel="noopener noreferrer"
     aria-label={label}
-    className="h-11 w-11 inline-flex items-center justify-center border border-border text-muted-foreground hover:text-background hover:bg-foreground hover:border-foreground transition-all duration-300"
+    className="interactive-glow inline-flex h-11 w-11 items-center justify-center border border-border text-muted-foreground transition-all duration-300 hover:border-foreground hover:bg-foreground hover:text-background"
   >
     {children}
   </a>

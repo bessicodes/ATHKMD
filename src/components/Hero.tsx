@@ -13,7 +13,7 @@ const TikTokIcon = ({ size = 18 }: { size?: number }) => (
 );
 
 export const Hero = () => {
-  const { hero, socials } = useSiteContent();
+  const { hero, socials, visuals } = useSiteContent();
   const shouldReduceMotion = useReducedMotion();
   const { isMinimal, isLite, isFull } = usePerformanceMode();
   const [isMobile, setIsMobile] = useState(false);
@@ -48,6 +48,9 @@ export const Hero = () => {
   );
   const glowOpacity = useTransform(scrollYProgress, [0, 1], [isMinimal ? 0.2 : 0.32, 0.06]);
 
+  const logoSrc = visuals.logoUrl || logo;
+  const heroBgSrc = visuals.heroBgUrl || heroBg;
+
   return (
     <section
       ref={sectionRef}
@@ -56,7 +59,7 @@ export const Hero = () => {
     >
       <div className="absolute inset-0">
         <motion.img
-          src={heroBg}
+          src={heroBgSrc}
           alt=""
           width={1920}
           height={1080}
@@ -125,7 +128,7 @@ export const Hero = () => {
             transition={{ duration: isLite ? 5.3 : 4.8, repeat: Infinity, ease: "easeInOut" }}
           >
             <motion.img
-              src={logo}
+              src={logoSrc}
               alt="Athlete Kingdom"
               width={1024}
               height={1536}
@@ -199,7 +202,7 @@ const SocialButton = ({ href, label, icon }: { href: string; label: string; icon
     href={href}
     target="_blank"
     rel="noopener noreferrer"
-    className="group relative inline-flex w-full items-center justify-center gap-2 border border-border bg-background/40 px-4 py-2.5 text-[11px] uppercase tracking-[0.17em] text-foreground backdrop-blur-sm transition-all duration-300 hover:scale-[1.01] hover:border-foreground hover:bg-foreground hover:text-background sm:w-auto md:px-6 md:py-3 md:text-sm md:tracking-[0.2em]"
+    className="interactive-glow group relative inline-flex w-full items-center justify-center gap-2 border border-border bg-background/40 px-4 py-2.5 text-[11px] uppercase tracking-[0.17em] text-foreground backdrop-blur-sm transition-all duration-300 hover:scale-[1.01] hover:border-foreground hover:bg-foreground hover:text-background sm:w-auto md:px-6 md:py-3 md:text-sm md:tracking-[0.2em]"
   >
     {icon}
     <span>{label}</span>

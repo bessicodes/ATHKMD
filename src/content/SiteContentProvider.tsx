@@ -58,6 +58,8 @@ const mergeSiteContent = (
   navItems: incoming.navItems ?? base.navItems,
   storySections: incoming.storySections ?? base.storySections,
   hero: { ...base.hero, ...incoming.hero },
+  visuals: { ...base.visuals, ...incoming.visuals },
+  effects: { ...base.effects, ...incoming.effects },
   about: {
     ...base.about,
     ...incoming.about,

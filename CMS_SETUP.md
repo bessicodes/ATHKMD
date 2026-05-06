@@ -47,6 +47,17 @@ In Sanity Studio, edit the single document:
 
 The singleton helpers in `singletons.ts` + `deskStructure.ts` are already prepared for this behavior.
 
+New configurable groups:
+
+- `visuals`:
+  - `logoUrl` (optional URL)
+  - `heroBgUrl` (optional URL)
+  - `communityBgUrl` (optional URL)
+- `effects`:
+  - `enableIntroLoader` (boolean)
+  - `enableAmbientOrbs` (boolean)
+  - `moodShiftStrength` (number 0..1)
+
 ## 5) Run and verify
 
 Website (this repo):

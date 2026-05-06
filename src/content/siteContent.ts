@@ -14,6 +14,18 @@ export type HeroContent = {
   titleBottom: string;
 };
 
+export type VisualsContent = {
+  logoUrl: string;
+  heroBgUrl: string;
+  communityBgUrl: string;
+};
+
+export type EffectsContent = {
+  enableIntroLoader: boolean;
+  enableAmbientOrbs: boolean;
+  moodShiftStrength: number;
+};
+
 export type StatItem = {
   n: string;
   l: string;
@@ -37,6 +49,8 @@ export type SiteContent = {
   navItems: NavItem[];
   storySections: StorySection[];
   hero: HeroContent;
+  visuals: VisualsContent;
+  effects: EffectsContent;
   about: {
     eyebrow: string;
     title: string;
@@ -86,6 +100,16 @@ export const DEFAULT_SITE_CONTENT: SiteContent = {
     eyebrow: "Est. The Home of Sports",
     titleTop: "ATHLETE",
     titleBottom: "KINGDOM",
+  },
+  visuals: {
+    logoUrl: "",
+    heroBgUrl: "",
+    communityBgUrl: "",
+  },
+  effects: {
+    enableIntroLoader: true,
+    enableAmbientOrbs: true,
+    moodShiftStrength: 0.45,
   },
   about: {
     eyebrow: "About",

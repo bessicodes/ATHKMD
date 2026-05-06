@@ -145,6 +145,31 @@
   .animate-marquee-reverse {
     animation: marquee-reverse 55s linear infinite;
   }
+
+  .interactive-glow {
+    position: relative;
+    overflow: hidden;
+    isolation: isolate;
+  }
+
+  .interactive-glow::before {
+    content: '';
+    position: absolute;
+    inset: -1px;
+    opacity: 0;
+    z-index: -1;
+    transition: opacity 0.28s ease;
+    background: radial-gradient(circle at var(--mx, 50%) var(--my, 50%), hsl(0 0% 100% / 0.28), transparent 52%);
+  }
+
+  .interactive-glow:hover::before,
+  .interactive-glow:focus-visible::before {
+    opacity: 1;
+  }
+
+  .fade-edge-bottom {
+    mask-image: linear-gradient(to bottom, black 78%, transparent 100%);
+  }
 }
 
 @keyframes marquee-reverse {

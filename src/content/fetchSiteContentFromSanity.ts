@@ -6,6 +6,8 @@ type SanitySiteSettings = {
   navItems?: { href?: string; label?: string }[];
   storySections?: { id?: string; label?: string }[];
   hero?: Partial<SiteContent["hero"]>;
+  visuals?: Partial<SiteContent["visuals"]>;
+  effects?: Partial<SiteContent["effects"]>;
   about?: {
     eyebrow?: string;
     title?: string;
@@ -44,6 +46,8 @@ const QUERY = `*[_type == "siteSettings"][0]{
   navItems[]{href,label},
   storySections[]{id,label},
   hero{eyebrow,titleTop,titleBottom},
+  visuals{logoUrl,heroBgUrl,communityBgUrl},
+  effects{enableIntroLoader,enableAmbientOrbs,moodShiftStrength},
   about{
     eyebrow,
     title,
@@ -100,6 +104,8 @@ export const fetchSiteContentFromSanity = async (): Promise<Partial<SiteContent>
     navItems: sanitizeNavItems(data.navItems),
     storySections: sanitizeStorySections(data.storySections),
     hero: sanitizeHero(data.hero),
+    visuals: sanitizeVisuals(data.visuals),
+    effects: sanitizeEffects(data.effects),
     about: sanitizeAbout(data.about),
     whatWeDo: sanitizeWhatWeDo(data.whatWeDo),
     community: sanitizeCommunity(data.community),
@@ -145,6 +151,32 @@ const sanitizeHero = (hero?: SanitySiteSettings["hero"]) => {
   if (typeof hero.eyebrow === "string") next.eyebrow = normalizeText(hero.eyebrow);
   if (typeof hero.titleTop === "string") next.titleTop = normalizeText(hero.titleTop);
   if (typeof hero.titleBottom === "string") next.titleBottom = normalizeText(hero.titleBottom);
+  return Object.keys(next).length ? next : undefined;
+};
+
+const sanitizeVisuals = (visuals?: SanitySiteSettings["visuals"]) => {
+  if (!visuals) return undefined;
+  const next: Partial<SiteContent["visuals"]> = {};
+  if (typeof visuals.logoUrl === "string") next.logoUrl = normalizeText(visuals.logoUrl);
+  if (typeof visuals.heroBgUrl === "string") next.heroBgUrl = normalizeText(visuals.heroBgUrl);
+  if (typeof visuals.communityBgUrl === "string") {
+    next.communityBgUrl = normalizeText(visuals.communityBgUrl);
+  }
+  return Object.keys(next).length ? next : undefined;
+};
+
+const sanitizeEffects = (effects?: SanitySiteSettings["effects"]) => {
+  if (!effects) return undefined;
+  const next: Partial<SiteContent["effects"]> = {};
+  if (typeof effects.enableIntroLoader === "boolean") {
+    next.enableIntroLoader = effects.enableIntroLoader;
+  }
+  if (typeof effects.enableAmbientOrbs === "boolean") {
+    next.enableAmbientOrbs = effects.enableAmbientOrbs;
+  }
+  if (typeof effects.moodShiftStrength === "number" && Number.isFinite(effects.moodShiftStrength)) {
+    next.moodShiftStrength = Math.min(1, Math.max(0, effects.moodShiftStrength));
+  }
   return Object.keys(next).length ? next : undefined;
 };
 
