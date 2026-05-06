@@ -9,7 +9,7 @@ import { ScrollProgress } from "@/components/ScrollProgress";
 import { InAppBrowserNotice } from "@/components/InAppBrowserNotice";
 import { StoryRail } from "@/components/StoryRail";
 import { CinematicSection } from "@/components/CinematicSection";
-import { STORY_SECTIONS } from "@/content/siteContent";
+import { useSiteContent } from "@/content/SiteContentProvider";
 
 const About = lazy(async () => ({
   default: (await import("@/components/About")).About,
@@ -25,6 +25,7 @@ const Contact = lazy(async () => ({
 }));
 
 const Index = () => {
+  const { storySections } = useSiteContent();
   const [showTop, setShowTop] = useState(false);
 
   useEffect(() => {
@@ -38,7 +39,7 @@ const Index = () => {
     <main className="relative overflow-x-hidden bg-background text-foreground">
       <InAppBrowserNotice />
       <ScrollProgress />
-      <StoryRail sections={STORY_SECTIONS} />
+      <StoryRail sections={storySections} />
       <div
         aria-hidden="true"
         className="pointer-events-none fixed inset-0 -z-10 overflow-hidden"

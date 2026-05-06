@@ -1,9 +1,10 @@
 import { useEffect, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Menu, X } from "lucide-react";
-import { NAV_ITEMS } from "@/content/siteContent";
+import { useSiteContent } from "@/content/SiteContentProvider";
 
 export const Navbar = () => {
+  const { navItems } = useSiteContent();
   const [scrolled, setScrolled] = useState(false);
   const [open, setOpen] = useState(false);
   const [activeSection, setActiveSection] = useState("home");
@@ -16,7 +17,7 @@ export const Navbar = () => {
   }, []);
 
   useEffect(() => {
-    const ids = NAV_ITEMS.map((l) => l.href.replace("#", ""));
+    const ids = navItems.map((l) => l.href.replace("#", ""));
     const sections = ids
       .map((id) => document.getElementById(id))
       .filter((el): el is HTMLElement => Boolean(el));
@@ -36,7 +37,7 @@ export const Navbar = () => {
 
     sections.forEach((section) => observer.observe(section));
     return () => observer.disconnect();
-  }, []);
+  }, [navItems]);
 
   return (
     <motion.header
@@ -55,7 +56,7 @@ export const Navbar = () => {
         </a>
 
         <ul className="hidden md:flex items-center gap-10">
-          {NAV_ITEMS.map((l) => (
+          {navItems.map((l) => (
             <li key={l.href}>
               <a
                 href={l.href}
@@ -99,7 +100,7 @@ export const Navbar = () => {
             className="md:hidden overflow-hidden bg-background/95 backdrop-blur-xl border-t border-border"
           >
             <ul className="flex flex-col p-6 gap-5">
-              {NAV_ITEMS.map((l) => (
+              {navItems.map((l) => (
                 <li key={l.href}>
                   <a
                     onClick={() => setOpen(false)}

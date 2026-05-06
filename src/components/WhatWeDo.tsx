@@ -1,45 +1,56 @@
 import { motion } from "framer-motion";
+import { Film, Flame, Sparkles, TrendingUp, Trophy } from "lucide-react";
 import { useState } from "react";
 import { SectionHeading } from "./SectionHeading";
-import { WHAT_WE_DO } from "@/content/siteContent";
+import { IconKey } from "@/content/siteContent";
+import { useSiteContent } from "@/content/SiteContentProvider";
 
-export const WhatWeDo = () => (
-  <section id="what-we-do" className="relative py-32 md:py-48 grain">
-    <div className="container mx-auto px-6">
-      <div className="max-w-3xl mb-20">
-        <SectionHeading eyebrow={WHAT_WE_DO.eyebrow} title={WHAT_WE_DO.title} />
-      </div>
+const ICONS: Record<IconKey, typeof Flame> = {
+  flame: Flame,
+  trophy: Trophy,
+  trendingUp: TrendingUp,
+  sparkles: Sparkles,
+  film: Film,
+};
 
-      <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-px bg-border">
-        {WHAT_WE_DO.items.map((item, i) => (
-          <WorkCard
-            key={item.title}
-            item={item}
-            index={i}
-          />
-        ))}
+export const WhatWeDo = () => {
+  const { whatWeDo } = useSiteContent();
 
-        <div className="hidden lg:flex bg-background p-10 md:p-12 items-center justify-center">
-          <p className="font-display text-2xl text-gradient text-center leading-tight">
-            More.
-            <br />
-            Always.
-            <br />
-            <span className="text-muted-foreground">More.</span>
-          </p>
+  return (
+    <section id="what-we-do" className="relative py-32 md:py-48 grain">
+      <div className="container mx-auto px-6">
+        <div className="max-w-3xl mb-20">
+          <SectionHeading eyebrow={whatWeDo.eyebrow} title={whatWeDo.title} />
+        </div>
+
+        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-px bg-border">
+          {whatWeDo.items.map((item, i) => (
+            <WorkCard key={item.title} item={item} index={i} />
+          ))}
+
+          <div className="hidden lg:flex bg-background p-10 md:p-12 items-center justify-center">
+            <p className="font-display text-2xl text-gradient text-center leading-tight">
+              More.
+              <br />
+              Always.
+              <br />
+              <span className="text-muted-foreground">More.</span>
+            </p>
+          </div>
         </div>
       </div>
-    </div>
-  </section>
-);
+    </section>
+  );
+};
 
 const WorkCard = ({
   item,
   index,
 }: {
-  item: (typeof WHAT_WE_DO.items)[number];
+  item: { icon: IconKey; title: string; desc: string };
   index: number;
 }) => {
+  const Icon = ICONS[item.icon];
   const [pointer, setPointer] = useState({ x: 50, y: 50, active: false });
 
   return (
@@ -73,7 +84,7 @@ const WorkCard = ({
         />
         <div className="relative">
           <div className="mb-12 flex items-start justify-between">
-            <item.icon
+            <Icon
               className="h-8 w-8 text-muted-foreground transition-all duration-500 group-hover:scale-110 group-hover:text-foreground"
               strokeWidth={1.2}
             />

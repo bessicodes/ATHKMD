@@ -1,13 +1,14 @@
 import { motion } from "framer-motion";
 import { Instagram, Youtube, ArrowUpRight } from "lucide-react";
 import communityBg from "@/assets/community-bg.jpg";
-import { SOCIALS } from "@/lib/socials";
-import { COMMUNITY } from "@/content/siteContent";
+import { useSiteContent } from "@/content/SiteContentProvider";
 
-const [communityTitleTop, communityTitleBottom] = COMMUNITY.title.split("\n");
+export const Community = () => {
+  const { socials, community } = useSiteContent();
+  const [communityTitleTop, communityTitleBottom] = community.title.split("\n");
 
-export const Community = () => (
-  <section id="community" className="relative py-32 md:py-48 overflow-hidden grain">
+  return (
+    <section id="community" className="relative py-32 md:py-48 overflow-hidden grain">
     <div className="absolute inset-0 -z-10">
       <img
         src={communityBg}
@@ -30,7 +31,7 @@ export const Community = () => (
         transition={{ duration: 0.6 }}
         className="text-xs uppercase tracking-[0.5em] text-muted-foreground mb-6"
       >
-        {COMMUNITY.eyebrow}
+        {community.eyebrow}
       </motion.p>
 
       <motion.h2
@@ -52,7 +53,7 @@ export const Community = () => (
         transition={{ duration: 0.8, delay: 0.3 }}
         className="mt-8 max-w-2xl mx-auto text-base text-muted-foreground leading-relaxed md:text-lg"
       >
-        {COMMUNITY.body}
+        {community.body}
       </motion.p>
 
       <motion.div
@@ -62,9 +63,9 @@ export const Community = () => (
         transition={{ duration: 0.8, delay: 0.5 }}
         className="mt-12 flex flex-wrap justify-center gap-3"
       >
-        <PrimaryLink href={SOCIALS.youtube}>Subscribe on YouTube</PrimaryLink>
-        <GhostLink href={SOCIALS.instagram} icon={<Instagram size={16} />}>Instagram</GhostLink>
-        <GhostLink href={SOCIALS.tiktok}>TikTok</GhostLink>
+        <PrimaryLink href={socials.youtube}>Subscribe on YouTube</PrimaryLink>
+        <GhostLink href={socials.instagram} icon={<Instagram size={16} />}>Instagram</GhostLink>
+        <GhostLink href={socials.tiktok}>TikTok</GhostLink>
       </motion.div>
 
       <motion.div
@@ -74,7 +75,7 @@ export const Community = () => (
         transition={{ duration: 0.8, delay: 0.6 }}
         className="mt-10 flex flex-wrap justify-center gap-3"
       >
-        {COMMUNITY.pills.map((pill) => (
+        {community.pills.map((pill) => (
           <span
             key={pill}
             className="rounded-full border border-border bg-background/50 px-4 py-2 text-[11px] uppercase tracking-[0.24em] text-muted-foreground backdrop-blur"
@@ -85,7 +86,8 @@ export const Community = () => (
       </motion.div>
     </div>
   </section>
-);
+  );
+};
 
 const PrimaryLink = ({ href, children }: { href: string; children: React.ReactNode }) => (
   <a

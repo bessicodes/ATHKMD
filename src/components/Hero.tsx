@@ -3,8 +3,7 @@ import { useEffect, useRef, useState } from "react";
 import { Instagram, Youtube } from "lucide-react";
 import logo from "@/assets/logo.png";
 import heroBg from "@/assets/hero-bg.jpg";
-import { SOCIALS } from "@/lib/socials";
-import { HERO } from "@/content/siteContent";
+import { useSiteContent } from "@/content/SiteContentProvider";
 
 const TikTokIcon = ({ size = 18 }: { size?: number }) => (
   <svg width={size} height={size} viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
@@ -13,6 +12,7 @@ const TikTokIcon = ({ size = 18 }: { size?: number }) => (
 );
 
 export const Hero = () => {
+  const { hero, socials } = useSiteContent();
   const shouldReduceMotion = useReducedMotion();
   const [isMobile, setIsMobile] = useState(false);
   const sectionRef = useRef<HTMLElement | null>(null);
@@ -141,7 +141,7 @@ export const Hero = () => {
           transition={{ delay: 0.3, duration: 0.8 }}
           className="mb-4 text-[10px] uppercase tracking-[0.38em] text-muted-foreground sm:mb-6 sm:text-sm sm:tracking-[0.5em]"
         >
-          {HERO.eyebrow}
+          {hero.eyebrow}
         </motion.p>
 
         <motion.h1
@@ -150,9 +150,9 @@ export const Hero = () => {
           transition={{ delay: 0.4, duration: 1, ease: [0.22, 1, 0.36, 1] }}
           className="font-display text-[17vw] leading-[0.85] text-foreground md:text-[12vw] md:text-gradient lg:text-[10rem]"
         >
-          {HERO.titleTop}
+          {hero.titleTop}
           <br />
-          {HERO.titleBottom}
+          {hero.titleBottom}
         </motion.h1>
 
         <motion.div
@@ -161,9 +161,9 @@ export const Hero = () => {
           transition={{ delay: 0.9, duration: 0.8 }}
           className="mt-6 flex flex-wrap items-center justify-center gap-2.5 md:gap-4"
         >
-          <SocialButton href={SOCIALS.youtube} label="YouTube" icon={<Youtube size={18} />} />
-          <SocialButton href={SOCIALS.tiktok} label="TikTok" icon={<TikTokIcon />} />
-          <SocialButton href={SOCIALS.instagram} label="Instagram" icon={<Instagram size={18} />} />
+          <SocialButton href={socials.youtube} label="YouTube" icon={<Youtube size={18} />} />
+          <SocialButton href={socials.tiktok} label="TikTok" icon={<TikTokIcon />} />
+          <SocialButton href={socials.instagram} label="Instagram" icon={<Instagram size={18} />} />
         </motion.div>
       </motion.div>
 
