@@ -7,8 +7,10 @@ export const Contact = () => {
   const { socials, contact } = useSiteContent();
 
   return (
-    <section id="contact" className="section-fade relative grain py-20 sm:py-24 md:py-40">
-      <div className="pointer-events-none absolute inset-0 -z-10 bg-[radial-gradient(ellipse_at_bottom,hsl(0_0%_8%)_0%,hsl(0_0%_4%)_68%)] opacity-55" />
+    <section
+      id="contact"
+      className="section-fade relative bg-background grain py-20 sm:py-24 md:py-40"
+    >
       <div className="container mx-auto px-6 max-w-5xl">
         <SectionHeading eyebrow={contact.eyebrow} title={contact.title} />
 

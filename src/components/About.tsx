@@ -6,9 +6,10 @@ export const About = () => {
   const { about } = useSiteContent();
 
   return (
-    <section id="about" className="section-fade relative overflow-hidden grain py-20 sm:py-24 md:py-40">
-      <div className="absolute inset-0 -z-10 bg-[radial-gradient(ellipse_at_top,hsl(0_0%_10%)_0%,hsl(0_0%_4%)_60%)]" />
-
+    <section
+      id="about"
+      className="section-fade relative overflow-hidden bg-background grain py-20 sm:py-24 md:py-40"
+    >
       <div className="container mx-auto grid items-end gap-10 px-6 md:grid-cols-12 md:gap-12">
         <div className="md:col-span-6">
           <SectionHeading eyebrow={about.eyebrow} title={about.title} />
