@@ -5,7 +5,6 @@ import { useSiteContent } from "@/content/SiteContentProvider";
 
 export const Community = () => {
   const { socials, community } = useSiteContent();
-  const [communityTitleTop, communityTitleBottom] = community.title.split("\n");
 
   return (
     <section id="community" className="relative overflow-hidden grain py-20 sm:py-24 md:py-40">
@@ -39,11 +38,9 @@ export const Community = () => {
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true, amount: 0.15 }}
         transition={{ duration: 0.9 }}
-        className="text-gradient font-display text-[clamp(3rem,13vw,8rem)] leading-[0.88] lg:text-9xl"
+        className="text-gradient whitespace-pre-line font-display text-[clamp(3rem,13vw,8rem)] leading-[0.88] lg:text-9xl"
       >
-        {communityTitleTop}
-        <br />
-        {communityTitleBottom}
+        {community.title}
       </motion.h2>
 
       <motion.p

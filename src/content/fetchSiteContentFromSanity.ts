@@ -68,6 +68,12 @@ const QUERY = `*[_type == "siteSettings"][0]{
   }
 }`;
 
+const normalizeText = (value: string) =>
+  value
+    .replace(/\\n/g, "\n")
+    .replace(/\r\n/g, "\n")
+    .trim();
+
 export const fetchSiteContentFromSanity = async (): Promise<Partial<SiteContent> | null> => {
   const projectId = import.meta.env.VITE_SANITY_PROJECT_ID?.trim() || "7qw9rsri";
   const dataset = import.meta.env.VITE_SANITY_DATASET?.trim() || "production";
@@ -104,10 +110,10 @@ export const fetchSiteContentFromSanity = async (): Promise<Partial<SiteContent>
 const sanitizeSocials = (socials?: SanitySiteSettings["socials"]) => {
   if (!socials) return undefined;
   const next: Partial<SiteContent["socials"]> = {};
-  if (typeof socials.instagram === "string") next.instagram = socials.instagram;
-  if (typeof socials.tiktok === "string") next.tiktok = socials.tiktok;
-  if (typeof socials.youtube === "string") next.youtube = socials.youtube;
-  if (typeof socials.email === "string") next.email = socials.email;
+  if (typeof socials.instagram === "string") next.instagram = normalizeText(socials.instagram);
+  if (typeof socials.tiktok === "string") next.tiktok = normalizeText(socials.tiktok);
+  if (typeof socials.youtube === "string") next.youtube = normalizeText(socials.youtube);
+  if (typeof socials.email === "string") next.email = normalizeText(socials.email);
   return Object.keys(next).length ? next : undefined;
 };
 
@@ -115,7 +121,10 @@ const sanitizeNavItems = (items?: SanitySiteSettings["navItems"]) => {
   if (!items?.length) return undefined;
   const clean = items
     .filter((i) => typeof i?.href === "string" && typeof i?.label === "string")
-    .map((i) => ({ href: i.href as string, label: i.label as string }));
+    .map((i) => ({
+      href: normalizeText(i.href as string),
+      label: normalizeText(i.label as string),
+    }));
   return clean.length ? clean : undefined;
 };
 
@@ -123,31 +132,37 @@ const sanitizeStorySections = (items?: SanitySiteSettings["storySections"]) => {
   if (!items?.length) return undefined;
   const clean = items
     .filter((i) => typeof i?.id === "string" && typeof i?.label === "string")
-    .map((i) => ({ id: i.id as string, label: i.label as string }));
+    .map((i) => ({
+      id: normalizeText(i.id as string),
+      label: normalizeText(i.label as string),
+    }));
   return clean.length ? clean : undefined;
 };
 
 const sanitizeHero = (hero?: SanitySiteSettings["hero"]) => {
   if (!hero) return undefined;
   const next: Partial<SiteContent["hero"]> = {};
-  if (typeof hero.eyebrow === "string") next.eyebrow = hero.eyebrow;
-  if (typeof hero.titleTop === "string") next.titleTop = hero.titleTop;
-  if (typeof hero.titleBottom === "string") next.titleBottom = hero.titleBottom;
+  if (typeof hero.eyebrow === "string") next.eyebrow = normalizeText(hero.eyebrow);
+  if (typeof hero.titleTop === "string") next.titleTop = normalizeText(hero.titleTop);
+  if (typeof hero.titleBottom === "string") next.titleBottom = normalizeText(hero.titleBottom);
   return Object.keys(next).length ? next : undefined;
 };
 
 const sanitizeAbout = (about?: SanitySiteSettings["about"]) => {
   if (!about) return undefined;
   const next: Partial<SiteContent["about"]> = {};
-  if (typeof about.eyebrow === "string") next.eyebrow = about.eyebrow;
-  if (typeof about.title === "string") next.title = about.title;
+  if (typeof about.eyebrow === "string") next.eyebrow = normalizeText(about.eyebrow);
+  if (typeof about.title === "string") next.title = normalizeText(about.title);
   if (Array.isArray(about.paragraphs) && about.paragraphs.length >= 2) {
-    next.paragraphs = [about.paragraphs[0], about.paragraphs[1]];
+    next.paragraphs = [normalizeText(about.paragraphs[0]), normalizeText(about.paragraphs[1])];
   }
   if (Array.isArray(about.stats)) {
     const stats = about.stats
       .filter((s) => typeof s?.n === "string" && typeof s?.l === "string")
-      .map((s) => ({ n: s.n as string, l: s.l as string }));
+      .map((s) => ({
+        n: normalizeText(s.n as string),
+        l: normalizeText(s.l as string),
+      }));
     if (stats.length) next.stats = stats;
   }
   return Object.keys(next).length ? next : undefined;
@@ -156,8 +171,8 @@ const sanitizeAbout = (about?: SanitySiteSettings["about"]) => {
 const sanitizeWhatWeDo = (whatWeDo?: SanitySiteSettings["whatWeDo"]) => {
   if (!whatWeDo) return undefined;
   const next: Partial<SiteContent["whatWeDo"]> = {};
-  if (typeof whatWeDo.eyebrow === "string") next.eyebrow = whatWeDo.eyebrow;
-  if (typeof whatWeDo.title === "string") next.title = whatWeDo.title;
+  if (typeof whatWeDo.eyebrow === "string") next.eyebrow = normalizeText(whatWeDo.eyebrow);
+  if (typeof whatWeDo.title === "string") next.title = normalizeText(whatWeDo.title);
   if (Array.isArray(whatWeDo.items)) {
     const items = whatWeDo.items
       .filter(
@@ -169,8 +184,8 @@ const sanitizeWhatWeDo = (whatWeDo?: SanitySiteSettings["whatWeDo"]) => {
       )
       .map((item) => ({
         icon: item.icon as IconKey,
-        title: item.title as string,
-        desc: item.desc as string,
+        title: normalizeText(item.title as string),
+        desc: normalizeText(item.desc as string),
       }));
     if (items.length) next.items = items;
   }
@@ -180,11 +195,13 @@ const sanitizeWhatWeDo = (whatWeDo?: SanitySiteSettings["whatWeDo"]) => {
 const sanitizeCommunity = (community?: SanitySiteSettings["community"]) => {
   if (!community) return undefined;
   const next: Partial<SiteContent["community"]> = {};
-  if (typeof community.eyebrow === "string") next.eyebrow = community.eyebrow;
-  if (typeof community.title === "string") next.title = community.title;
-  if (typeof community.body === "string") next.body = community.body;
+  if (typeof community.eyebrow === "string") next.eyebrow = normalizeText(community.eyebrow);
+  if (typeof community.title === "string") next.title = normalizeText(community.title);
+  if (typeof community.body === "string") next.body = normalizeText(community.body);
   if (Array.isArray(community.pills)) {
-    const pills = community.pills.filter((pill) => typeof pill === "string");
+    const pills = community.pills
+      .filter((pill) => typeof pill === "string")
+      .map((pill) => normalizeText(pill));
     if (pills.length) next.pills = pills;
   }
   return Object.keys(next).length ? next : undefined;
@@ -193,8 +210,8 @@ const sanitizeCommunity = (community?: SanitySiteSettings["community"]) => {
 const sanitizeContact = (contact?: SanitySiteSettings["contact"]) => {
   if (!contact) return undefined;
   const next: Partial<SiteContent["contact"]> = {};
-  if (typeof contact.eyebrow === "string") next.eyebrow = contact.eyebrow;
-  if (typeof contact.title === "string") next.title = contact.title;
-  if (typeof contact.body === "string") next.body = contact.body;
+  if (typeof contact.eyebrow === "string") next.eyebrow = normalizeText(contact.eyebrow);
+  if (typeof contact.title === "string") next.title = normalizeText(contact.title);
+  if (typeof contact.body === "string") next.body = normalizeText(contact.body);
   return Object.keys(next).length ? next : undefined;
 };

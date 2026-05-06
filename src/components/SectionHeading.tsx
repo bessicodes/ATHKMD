@@ -16,8 +16,10 @@ export const SectionHeading = ({
     transition={{ duration: 0.8, ease: "easeOut" }}
     className={align === "center" ? "text-center" : ""}
   >
-    <p className="text-xs uppercase tracking-[0.5em] text-muted-foreground mb-4">{eyebrow}</p>
-    <h2 className="font-display text-5xl md:text-7xl lg:text-8xl leading-[0.9] text-gradient">
+    <p className="mb-4 text-xs uppercase tracking-[0.32em] text-muted-foreground md:tracking-[0.5em]">
+      {eyebrow}
+    </p>
+    <h2 className="whitespace-pre-line font-display text-5xl leading-[0.9] text-gradient md:text-7xl lg:text-8xl">
       {title}
     </h2>
   </motion.div>
