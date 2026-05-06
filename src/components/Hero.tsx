@@ -1,5 +1,5 @@
-import { motion, useScroll, useTransform } from "framer-motion";
-import { useRef } from "react";
+import { motion, useReducedMotion, useScroll, useTransform } from "framer-motion";
+import { useEffect, useRef, useState } from "react";
 import { Instagram, Youtube } from "lucide-react";
 import logo from "@/assets/logo.png";
 import heroBg from "@/assets/hero-bg.jpg";
@@ -12,22 +12,32 @@ const TikTokIcon = ({ size = 18 }: { size?: number }) => (
 );
 
 export const Hero = () => {
+  const shouldReduceMotion = useReducedMotion();
+  const [isMobile, setIsMobile] = useState(false);
   const sectionRef = useRef<HTMLElement | null>(null);
   const { scrollYProgress } = useScroll({
     target: sectionRef,
     offset: ["start start", "end start"],
   });
 
-  const bgScale = useTransform(scrollYProgress, [0, 1], [1, 1.18]);
-  const bgY = useTransform(scrollYProgress, [0, 1], [0, 130]);
-  const contentY = useTransform(scrollYProgress, [0, 1], [0, 75]);
+  useEffect(() => {
+    const media = window.matchMedia("(max-width: 768px), (pointer: coarse)");
+    const update = () => setIsMobile(media.matches);
+    update();
+    media.addEventListener("change", update);
+    return () => media.removeEventListener("change", update);
+  }, []);
+
+  const bgScale = useTransform(scrollYProgress, [0, 1], [1, isMobile ? 1.08 : 1.18]);
+  const bgY = useTransform(scrollYProgress, [0, 1], [0, isMobile ? 70 : 130]);
+  const contentY = useTransform(scrollYProgress, [0, 1], [0, isMobile ? 30 : 75]);
   const glowOpacity = useTransform(scrollYProgress, [0, 1], [0.35, 0.05]);
 
   return (
     <section
       ref={sectionRef}
       id="home"
-      className="relative flex min-h-screen items-center justify-center overflow-hidden grain"
+      className="relative flex min-h-[100svh] items-center justify-center overflow-hidden grain md:min-h-screen"
     >
       <div className="absolute inset-0">
         <motion.img
@@ -35,6 +45,9 @@ export const Hero = () => {
           alt=""
           width={1920}
           height={1080}
+          loading="eager"
+          decoding="async"
+          fetchPriority="high"
           style={{ scale: bgScale, y: bgY }}
           className="h-full w-full object-cover opacity-55"
         />
@@ -58,29 +71,53 @@ export const Hero = () => {
           <motion.div
             aria-hidden="true"
             className="pointer-events-none absolute -inset-10 rounded-full bg-[radial-gradient(circle,hsl(0_0%_100%/.28),transparent_65%)] blur-2xl"
-            animate={{ opacity: [0.2, 0.6, 0.2], scale: [0.92, 1.08, 0.92] }}
+            animate={
+              shouldReduceMotion || isMobile
+                ? { opacity: [0.24, 0.36, 0.24] }
+                : { opacity: [0.2, 0.6, 0.2], scale: [0.92, 1.08, 0.92] }
+            }
             transition={{ duration: 3.2, repeat: Infinity, ease: "easeInOut" }}
           />
 
           <motion.div
             className="relative [transform-style:preserve-3d]"
-            animate={{
-              rotateY: [-34, 34, -34],
-              x: [-14, 14, -14],
-              rotateZ: [-1.6, 1.6, -1.6],
-              filter: [
-                "drop-shadow(0 0 14px rgba(255,255,255,0.22))",
-                "drop-shadow(0 0 26px rgba(255,255,255,0.5))",
-                "drop-shadow(0 0 14px rgba(255,255,255,0.22))",
-              ],
-            }}
-            transition={{ duration: 4.8, repeat: Infinity, ease: "easeInOut" }}
+            animate={
+              shouldReduceMotion
+                ? undefined
+                : isMobile
+                  ? {
+                      rotateY: [-12, 12, -12],
+                      x: [-6, 6, -6],
+                      rotateZ: [-0.6, 0.6, -0.6],
+                      filter: [
+                        "drop-shadow(0 0 10px rgba(255,255,255,0.22))",
+                        "drop-shadow(0 0 16px rgba(255,255,255,0.38))",
+                        "drop-shadow(0 0 10px rgba(255,255,255,0.22))",
+                      ],
+                    }
+                  : {
+                      rotateY: [-28, 28, -28],
+                      x: [-12, 12, -12],
+                      rotateZ: [-1.2, 1.2, -1.2],
+                      filter: [
+                        "drop-shadow(0 0 14px rgba(255,255,255,0.22))",
+                        "drop-shadow(0 0 26px rgba(255,255,255,0.5))",
+                        "drop-shadow(0 0 14px rgba(255,255,255,0.22))",
+                      ],
+                    }
+            }
+            transition={{ duration: isMobile ? 5.2 : 4.8, repeat: Infinity, ease: "easeInOut" }}
           >
             <motion.img
               src={logo}
               alt="Athlete Kingdom"
-              className="w-24 md:w-32"
-              animate={{ rotateX: [0, 5, 0, -5, 0] }}
+              width={1024}
+              height={1536}
+              loading="eager"
+              decoding="async"
+              fetchPriority="high"
+              className="w-24 md:w-32 select-none"
+              animate={shouldReduceMotion || isMobile ? undefined : { rotateX: [0, 5, 0, -5, 0] }}
               transition={{ duration: 5.4, repeat: Infinity, ease: "easeInOut" }}
             />
           </motion.div>
@@ -88,7 +125,11 @@ export const Hero = () => {
           <motion.div
             aria-hidden="true"
             className="pointer-events-none absolute left-1/2 top-1/2 h-[3px] w-40 -translate-x-1/2 -translate-y-1/2 bg-gradient-to-r from-transparent via-white/75 to-transparent blur-[2px]"
-            animate={{ x: [-26, 26, -26], opacity: [0.2, 0.75, 0.2] }}
+            animate={
+              shouldReduceMotion || isMobile
+                ? { opacity: [0.18, 0.4, 0.18] }
+                : { x: [-26, 26, -26], opacity: [0.2, 0.75, 0.2] }
+            }
             transition={{ duration: 2.4, repeat: Infinity, ease: "easeInOut" }}
           />
         </motion.div>
@@ -106,7 +147,7 @@ export const Hero = () => {
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.4, duration: 1, ease: [0.22, 1, 0.36, 1] }}
-          className="font-display text-[18vw] md:text-[12vw] lg:text-[10rem] leading-[0.85] text-gradient"
+          className="font-display text-[17vw] md:text-[12vw] lg:text-[10rem] leading-[0.85] text-gradient"
         >
           ATHLETE
           <br />
@@ -117,7 +158,7 @@ export const Hero = () => {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.9, duration: 0.8 }}
-          className="mt-6 flex flex-wrap items-center justify-center gap-3 md:gap-4"
+          className="mt-6 flex flex-wrap items-center justify-center gap-2.5 md:gap-4"
         >
           <SocialButton href={SOCIALS.youtube} label="YouTube" icon={<Youtube size={18} />} />
           <SocialButton href={SOCIALS.tiktok} label="TikTok" icon={<TikTokIcon />} />
@@ -143,7 +184,7 @@ const SocialButton = ({ href, label, icon }: { href: string; label: string; icon
     href={href}
     target="_blank"
     rel="noopener noreferrer"
-    className="group relative inline-flex items-center gap-2 border border-border bg-background/40 px-6 py-3 text-sm uppercase tracking-[0.2em] text-foreground backdrop-blur-sm transition-all duration-300 hover:scale-[1.03] hover:border-foreground hover:bg-foreground hover:text-background"
+    className="group relative inline-flex items-center gap-2 border border-border bg-background/40 px-4 py-2.5 text-[11px] uppercase tracking-[0.17em] text-foreground backdrop-blur-sm transition-all duration-300 hover:scale-[1.03] hover:border-foreground hover:bg-foreground hover:text-background md:px-6 md:py-3 md:text-sm md:tracking-[0.2em]"
   >
     {icon}
     <span>{label}</span>

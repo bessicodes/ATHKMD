@@ -10,6 +10,8 @@ export const Community = () => (
         src={communityBg}
         alt=""
         loading="lazy"
+        decoding="async"
+        fetchPriority="low"
         width={1920}
         height={1080}
         className="w-full h-full object-cover opacity-30"
@@ -21,7 +23,7 @@ export const Community = () => (
       <motion.p
         initial={{ opacity: 0, y: 20 }}
         whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true }}
+        viewport={{ once: true, amount: 0.15 }}
         transition={{ duration: 0.6 }}
         className="text-xs uppercase tracking-[0.5em] text-muted-foreground mb-6"
       >
@@ -31,9 +33,9 @@ export const Community = () => (
       <motion.h2
         initial={{ opacity: 0, y: 30 }}
         whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true }}
+        viewport={{ once: true, amount: 0.15 }}
         transition={{ duration: 0.9 }}
-        className="font-display text-6xl md:text-8xl lg:text-9xl leading-[0.9] text-gradient"
+        className="font-display text-5xl md:text-8xl lg:text-9xl leading-[0.9] text-gradient"
       >
         Join the
         <br />
@@ -43,9 +45,9 @@ export const Community = () => (
       <motion.p
         initial={{ opacity: 0 }}
         whileInView={{ opacity: 1 }}
-        viewport={{ once: true }}
+        viewport={{ once: true, amount: 0.15 }}
         transition={{ duration: 0.8, delay: 0.3 }}
-        className="mt-8 text-lg text-muted-foreground max-w-2xl mx-auto leading-relaxed"
+        className="mt-8 max-w-2xl mx-auto text-base text-muted-foreground leading-relaxed md:text-lg"
       >
         Whether you are an athlete chasing greatness or a fan who lives for the moment - this is your
         home. Follow the movement, share the stories, become part of something bigger.
@@ -54,7 +56,7 @@ export const Community = () => (
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true }}
+        viewport={{ once: true, amount: 0.15 }}
         transition={{ duration: 0.8, delay: 0.5 }}
         className="mt-12 flex flex-wrap justify-center gap-3"
       >
@@ -66,7 +68,7 @@ export const Community = () => (
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true }}
+        viewport={{ once: true, amount: 0.15 }}
         transition={{ duration: 0.8, delay: 0.6 }}
         className="mt-10 flex flex-wrap justify-center gap-3"
       >
@@ -88,7 +90,7 @@ const PrimaryLink = ({ href, children }: { href: string; children: React.ReactNo
     href={href}
     target="_blank"
     rel="noopener noreferrer"
-    className="group inline-flex items-center gap-2 px-7 py-4 bg-foreground text-background text-sm uppercase tracking-[0.2em] transition-all duration-300 hover:bg-foreground/90 hover:gap-4"
+    className="group inline-flex items-center gap-2 bg-foreground px-4 py-3 text-[11px] uppercase tracking-[0.16em] text-background transition-all duration-300 hover:bg-foreground/90 hover:gap-4 md:px-7 md:py-4 md:text-sm md:tracking-[0.2em]"
   >
     <Youtube size={18} />
     {children}
@@ -101,7 +103,7 @@ const GhostLink = ({ href, children, icon }: { href: string; children: React.Rea
     href={href}
     target="_blank"
     rel="noopener noreferrer"
-    className="inline-flex items-center gap-2 px-7 py-4 border border-border text-sm uppercase tracking-[0.2em] text-foreground hover:bg-secondary hover:border-foreground/40 transition-all"
+    className="inline-flex items-center gap-2 border border-border px-4 py-3 text-[11px] uppercase tracking-[0.16em] text-foreground transition-all hover:border-foreground/40 hover:bg-secondary md:px-7 md:py-4 md:text-sm md:tracking-[0.2em]"
   >
     {icon}
     {children}

@@ -11,9 +11,9 @@ export const Contact = () => (
       <motion.p
         initial={{ opacity: 0, y: 20 }}
         whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true }}
+        viewport={{ once: true, amount: 0.15 }}
         transition={{ duration: 0.8, delay: 0.2 }}
-        className="mt-10 text-lg text-muted-foreground leading-relaxed max-w-3xl"
+        className="mt-10 max-w-3xl text-base text-muted-foreground leading-relaxed md:text-lg"
       >
         Get in touch with Athlete Kingdom for collaborations, questions, copyright inquiries, or to
         connect with the sports community. Reach out via email or follow Athlete Kingdom on
@@ -26,9 +26,9 @@ export const Contact = () => (
         initial={{ opacity: 0, y: 20 }}
         whileInView={{ opacity: 1, y: 0 }}
         whileHover={{ scale: 1.01 }}
-        viewport={{ once: true }}
+        viewport={{ once: true, amount: 0.15 }}
         transition={{ duration: 0.8, delay: 0.4 }}
-        className="group relative mt-16 flex items-center justify-between gap-6 overflow-hidden border border-border p-8 transition-all duration-500 hover:border-foreground/40 hover:bg-card md:p-12"
+        className="group relative mt-16 flex flex-col items-start justify-between gap-6 overflow-hidden border border-border p-6 transition-all duration-500 hover:border-foreground/40 hover:bg-card md:flex-row md:items-center md:p-12"
       >
         <span className="pointer-events-none absolute inset-0 opacity-0 transition-opacity duration-500 group-hover:opacity-100 bg-[radial-gradient(circle_at_top_left,hsl(0_0%_100%/.16),transparent_45%)]" />
         <div className="flex items-center gap-6">
@@ -40,7 +40,7 @@ export const Contact = () => (
             </p>
           </div>
         </div>
-        <ArrowUpRight className="h-8 w-8 md:h-12 md:w-12 text-muted-foreground transition-all duration-500 group-hover:rotate-45 group-hover:text-foreground shrink-0" strokeWidth={1} />
+        <ArrowUpRight className="h-8 w-8 shrink-0 text-muted-foreground transition-all duration-500 group-hover:rotate-45 group-hover:text-foreground md:h-12 md:w-12" strokeWidth={1} />
       </motion.a>
     </div>
   </section>

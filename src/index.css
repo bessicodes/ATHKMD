@@ -141,3 +141,19 @@
     scroll-behavior: auto !important;
   }
 }
+
+@media (max-width: 768px), (pointer: coarse) {
+  .grain::before {
+    opacity: 0.04;
+    mix-blend-mode: normal;
+  }
+
+  .ambient-orb {
+    opacity: 0.12;
+    filter: blur(48px);
+  }
+
+  .ambient-orb-soft {
+    opacity: 0.08;
+  }
+}

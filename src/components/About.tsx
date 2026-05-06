@@ -13,7 +13,7 @@ export const About = () => (
       <motion.div
         initial={{ opacity: 0, y: 30 }}
         whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true }}
+        viewport={{ once: true, amount: 0.15 }}
         transition={{ duration: 0.8, delay: 0.2 }}
         className="md:col-span-6 space-y-6 text-lg text-muted-foreground leading-relaxed"
       >
