@@ -41,14 +41,22 @@ export const Hero = () => {
 
     setIntroReady(false);
     const onIntroDone = () => setIntroReady(true);
-    const fallback = window.setTimeout(() => setIntroReady(true), 5600);
+    const fallbackBySpeed = {
+      normal: 3600,
+      slow: 5100,
+      cinematic: 6200,
+    } as const;
+    const fallback = window.setTimeout(
+      () => setIntroReady(true),
+      fallbackBySpeed[effects.loaderSpeed]
+    );
     window.addEventListener(INTRO_DONE_EVENT, onIntroDone);
 
     return () => {
       window.clearTimeout(fallback);
       window.removeEventListener(INTRO_DONE_EVENT, onIntroDone);
     };
-  }, [effects.enableIntroLoader]);
+  }, [effects.enableIntroLoader, effects.loaderSpeed]);
 
   const bgScale = useTransform(
     scrollYProgress,
@@ -224,7 +232,7 @@ const SocialButton = ({ href, label, icon }: { href: string; label: string; icon
     href={href}
     target="_blank"
     rel="noopener noreferrer"
-    className="interactive-glow group relative inline-flex w-full items-center justify-center gap-2 border border-border bg-background/40 px-4 py-2.5 text-[11px] uppercase tracking-[0.17em] text-foreground backdrop-blur-sm transition-all duration-300 hover:scale-[1.01] hover:border-foreground hover:bg-foreground hover:text-background sm:w-auto md:px-6 md:py-3 md:text-sm md:tracking-[0.2em]"
+    className="interactive-glow touch-feedback group relative inline-flex w-full items-center justify-center gap-2 border border-border bg-background/40 px-4 py-2.5 text-[11px] uppercase tracking-[0.17em] text-foreground backdrop-blur-sm transition-all duration-300 hover:scale-[1.01] hover:border-foreground hover:bg-foreground hover:text-background sm:w-auto md:px-6 md:py-3 md:text-sm md:tracking-[0.2em]"
   >
     {icon}
     <span>{label}</span>

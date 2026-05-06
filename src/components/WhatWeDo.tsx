@@ -69,7 +69,7 @@ const WorkCard = ({
         setPointer({ x, y, active: true });
       }}
       onMouseLeave={() => setPointer((old) => ({ ...old, active: false }))}
-      className="group relative cursor-default overflow-hidden bg-background transition-all duration-500 hover:bg-card"
+      className="touch-feedback group relative cursor-default overflow-hidden bg-background transition-all duration-500 hover:bg-card"
     >
       <div
         style={{

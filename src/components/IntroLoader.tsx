@@ -9,15 +9,22 @@ export const IntroLoader = ({
   logoSrc,
   titleTop,
   titleBottom,
+  loaderSpeed,
 }: {
   enabled: boolean;
   logoSrc: string;
   titleTop: string;
   titleBottom: string;
+  loaderSpeed: "normal" | "slow" | "cinematic";
 }) => {
   const { isLite } = usePerformanceMode();
   const [visible, setVisible] = useState(false);
-  const displayDuration = isLite ? 3400 : 4200;
+  const durationBySpeed = {
+    normal: isLite ? 2400 : 3000,
+    slow: isLite ? 3400 : 4200,
+    cinematic: isLite ? 4300 : 5200,
+  } as const;
+  const displayDuration = durationBySpeed[loaderSpeed];
 
   useEffect(() => {
     if (!enabled) return;

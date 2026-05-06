@@ -23,6 +23,8 @@ export type VisualsContent = {
 export type EffectsContent = {
   enableIntroLoader: boolean;
   enableAmbientOrbs: boolean;
+  showSectionTransitions: boolean;
+  loaderSpeed: "normal" | "slow" | "cinematic";
   moodShiftStrength: number;
 };
 
@@ -109,6 +111,8 @@ export const DEFAULT_SITE_CONTENT: SiteContent = {
   effects: {
     enableIntroLoader: true,
     enableAmbientOrbs: true,
+    showSectionTransitions: true,
+    loaderSpeed: "slow",
     moodShiftStrength: 0.45,
   },
   about: {

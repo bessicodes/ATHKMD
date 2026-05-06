@@ -47,7 +47,13 @@ const QUERY = `*[_type == "siteSettings"][0]{
   storySections[]{id,label},
   hero{eyebrow,titleTop,titleBottom},
   visuals{logoUrl,heroBgUrl,communityBgUrl},
-  effects{enableIntroLoader,enableAmbientOrbs,moodShiftStrength},
+  effects{
+    enableIntroLoader,
+    enableAmbientOrbs,
+    showSectionTransitions,
+    loaderSpeed,
+    moodShiftStrength
+  },
   about{
     eyebrow,
     title,
@@ -173,6 +179,15 @@ const sanitizeEffects = (effects?: SanitySiteSettings["effects"]) => {
   }
   if (typeof effects.enableAmbientOrbs === "boolean") {
     next.enableAmbientOrbs = effects.enableAmbientOrbs;
+  }
+  if (typeof effects.showSectionTransitions === "boolean") {
+    next.showSectionTransitions = effects.showSectionTransitions;
+  }
+  if (
+    typeof effects.loaderSpeed === "string" &&
+    ["normal", "slow", "cinematic"].includes(effects.loaderSpeed)
+  ) {
+    next.loaderSpeed = effects.loaderSpeed as SiteContent["effects"]["loaderSpeed"];
   }
   if (typeof effects.moodShiftStrength === "number" && Number.isFinite(effects.moodShiftStrength)) {
     next.moodShiftStrength = Math.min(1, Math.max(0, effects.moodShiftStrength));

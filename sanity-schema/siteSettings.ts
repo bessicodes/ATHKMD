@@ -178,6 +178,27 @@ export const siteSettings = defineType({
           initialValue: true,
         }),
         defineField({
+          name: "showSectionTransitions",
+          title: "Show Section Transition Bars",
+          type: "boolean",
+          initialValue: true,
+        }),
+        defineField({
+          name: "loaderSpeed",
+          title: "Loader Speed",
+          type: "string",
+          options: {
+            list: [
+              { title: "Normal", value: "normal" },
+              { title: "Slow", value: "slow" },
+              { title: "Cinematic", value: "cinematic" },
+            ],
+            layout: "radio",
+          },
+          initialValue: "slow",
+          validation: (Rule) => Rule.required(),
+        }),
+        defineField({
           name: "moodShiftStrength",
           title: "Mood Shift Strength",
           type: "number",

@@ -167,6 +167,32 @@
     opacity: 1;
   }
 
+  .touch-feedback {
+    position: relative;
+    overflow: hidden;
+    -webkit-tap-highlight-color: transparent;
+    transition: transform 0.16s ease, filter 0.2s ease;
+  }
+
+  .touch-feedback:active {
+    transform: translateY(1px) scale(0.992);
+    filter: brightness(1.04);
+  }
+
+  .touch-feedback::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 0.18s ease;
+    background: radial-gradient(circle at 50% 50%, hsl(0 0% 100% / 0.2) 0%, transparent 62%);
+  }
+
+  .touch-feedback:active::after {
+    opacity: 1;
+  }
+
   .fade-edge-bottom {
     mask-image: linear-gradient(to bottom, black 78%, transparent 100%);
   }

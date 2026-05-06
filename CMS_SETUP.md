@@ -56,6 +56,8 @@ New configurable groups:
 - `effects`:
   - `enableIntroLoader` (boolean)
   - `enableAmbientOrbs` (boolean)
+  - `showSectionTransitions` (boolean)
+  - `loaderSpeed` (`normal` | `slow` | `cinematic`)
   - `moodShiftStrength` (number 0..1)
 
 ## 5) Run and verify

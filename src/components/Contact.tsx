@@ -31,7 +31,7 @@ export const Contact = () => {
           whileHover={{ scale: 1.01 }}
           viewport={{ once: true, amount: 0.15 }}
           transition={{ duration: 0.8, delay: 0.4 }}
-          className="interactive-glow group relative mt-10 flex flex-col items-start justify-between gap-5 overflow-hidden border border-border p-5 transition-all duration-500 hover:border-foreground/40 hover:bg-card sm:mt-12 md:mt-16 md:flex-row md:items-center md:gap-6 md:p-12"
+          className="interactive-glow touch-feedback group relative mt-10 flex flex-col items-start justify-between gap-5 overflow-hidden border border-border p-5 transition-all duration-500 hover:border-foreground/40 hover:bg-card sm:mt-12 md:mt-16 md:flex-row md:items-center md:gap-6 md:p-12"
         >
           <span className="pointer-events-none absolute inset-0 opacity-0 transition-opacity duration-500 group-hover:opacity-100 bg-[radial-gradient(circle_at_top_left,hsl(0_0%_100%/.16),transparent_45%)]" />
           <div className="flex items-center gap-4 md:gap-6">

@@ -97,6 +97,7 @@ const Index = () => {
         logoSrc={visuals.logoUrl || defaultLogo}
         titleTop={hero.titleTop}
         titleBottom={hero.titleBottom}
+        loaderSpeed={effects.loaderSpeed}
       />
       <InAppBrowserNotice />
       <ScrollProgress />
@@ -144,26 +145,26 @@ const Index = () => {
       <Navbar />
       <Hero />
       <Marquee />
-      <SectionTransition label={aboutLabel} />
+      {effects.showSectionTransitions ? <SectionTransition label={aboutLabel} /> : null}
 
       <Suspense fallback={<SectionFallback />}>
         <CinematicSection>
           <About />
         </CinematicSection>
       </Suspense>
-      <SectionTransition label={whatWeDoLabel} />
+      {effects.showSectionTransitions ? <SectionTransition label={whatWeDoLabel} /> : null}
       <Suspense fallback={<SectionFallback />}>
         <CinematicSection>
           <WhatWeDo />
         </CinematicSection>
       </Suspense>
-      <SectionTransition label={communityLabel} />
+      {effects.showSectionTransitions ? <SectionTransition label={communityLabel} /> : null}
       <Suspense fallback={<SectionFallback />}>
         <CinematicSection>
           <Community />
         </CinematicSection>
       </Suspense>
-      <SectionTransition label={contactLabel} />
+      {effects.showSectionTransitions ? <SectionTransition label={contactLabel} /> : null}
       <Suspense fallback={<SectionFallback />}>
         <CinematicSection>
           <Contact />
@@ -183,7 +184,7 @@ const Index = () => {
         }}
         transition={{ duration: 0.28, ease: "easeOut" }}
         onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
-        className="fixed bottom-6 right-5 z-50 inline-flex h-12 w-12 items-center justify-center border border-border bg-background/80 text-foreground backdrop-blur-xl transition-colors hover:bg-foreground hover:text-background md:bottom-8 md:right-8"
+        className="touch-feedback fixed bottom-6 right-5 z-50 inline-flex h-12 w-12 items-center justify-center border border-border bg-background/80 text-foreground backdrop-blur-xl transition-colors hover:bg-foreground hover:text-background md:bottom-8 md:right-8"
       >
         <ArrowUp size={18} />
       </motion.button>
