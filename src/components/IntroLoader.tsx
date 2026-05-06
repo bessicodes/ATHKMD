@@ -17,6 +17,7 @@ export const IntroLoader = ({
 }) => {
   const { isMinimal, isLite } = usePerformanceMode();
   const [visible, setVisible] = useState(false);
+  const displayDuration = isLite ? 1800 : 2550;
 
   useEffect(() => {
     if (!enabled) return;
@@ -29,10 +30,10 @@ export const IntroLoader = ({
     const timeout = window.setTimeout(() => {
       setVisible(false);
       window.sessionStorage.setItem(SESSION_KEY, "1");
-    }, isLite ? 1150 : 1650);
+    }, displayDuration);
 
     return () => window.clearTimeout(timeout);
-  }, [enabled, isLite, isMinimal]);
+  }, [displayDuration, enabled, isMinimal]);
 
   return (
     <AnimatePresence>
@@ -40,19 +41,29 @@ export const IntroLoader = ({
         <motion.div
           className="fixed inset-0 z-[120] flex items-center justify-center bg-background"
           initial={{ opacity: 1 }}
-          exit={{ opacity: 0, transition: { duration: 0.55, ease: "easeOut" } }}
+          exit={{
+            opacity: 0,
+            filter: "blur(6px)",
+            transition: { duration: 0.9, ease: [0.22, 1, 0.36, 1] },
+          }}
         >
           <motion.div
             className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_center,hsl(0_0%_100%/.15),transparent_55%)]"
-            animate={{ opacity: [0.45, 0.85, 0.45] }}
-            transition={{ duration: 1.8, repeat: Infinity, ease: "easeInOut" }}
+            animate={{ opacity: [0.35, 0.78, 0.4] }}
+            transition={{ duration: 2.6, repeat: Infinity, ease: "easeInOut" }}
+          />
+          <motion.div
+            className="pointer-events-none absolute inset-0 bg-[linear-gradient(105deg,transparent_0%,hsl(0_0%_100%/.14)_45%,transparent_72%)]"
+            initial={{ x: "-60%" }}
+            animate={{ x: ["-60%", "70%", "115%"] }}
+            transition={{ duration: 2.8, ease: "easeInOut", repeat: Infinity }}
           />
 
           <motion.div
             className="relative z-10 flex flex-col items-center px-6 text-center"
-            initial={{ y: 14, opacity: 0 }}
-            animate={{ y: 0, opacity: 1 }}
-            transition={{ duration: 0.45, ease: "easeOut" }}
+            initial={{ y: 20, opacity: 0, scale: 0.985 }}
+            animate={{ y: 0, opacity: 1, scale: 1 }}
+            transition={{ duration: 0.72, ease: [0.22, 1, 0.36, 1] }}
           >
             {logoSrc ? (
               <motion.img
@@ -60,8 +71,16 @@ export const IntroLoader = ({
                 alt=""
                 aria-hidden="true"
                 className="mb-5 w-20 select-none md:w-24"
-                animate={{ rotateY: [-14, 14, -14] }}
-                transition={{ duration: 1.9, repeat: Infinity, ease: "easeInOut" }}
+                animate={{
+                  rotateY: [-12, 12, -12],
+                  y: [0, -3, 0],
+                  filter: [
+                    "drop-shadow(0 0 8px rgba(255,255,255,0.22))",
+                    "drop-shadow(0 0 16px rgba(255,255,255,0.42))",
+                    "drop-shadow(0 0 8px rgba(255,255,255,0.22))",
+                  ],
+                }}
+                transition={{ duration: 2.3, repeat: Infinity, ease: "easeInOut" }}
               />
             ) : null}
             <p className="font-display text-5xl leading-[0.86] text-gradient md:text-6xl">
@@ -72,6 +91,14 @@ export const IntroLoader = ({
             <p className="mt-4 text-[10px] uppercase tracking-[0.34em] text-muted-foreground">
               Entering the kingdom
             </p>
+            <div className="mt-5 h-[2px] w-40 overflow-hidden rounded-full bg-foreground/20">
+              <motion.div
+                className="h-full bg-gradient-to-r from-foreground/45 via-foreground to-foreground/45"
+                initial={{ width: "0%" }}
+                animate={{ width: "100%" }}
+                transition={{ duration: displayDuration / 1000, ease: "easeInOut" }}
+              />
+            </div>
           </motion.div>
         </motion.div>
       ) : null}
