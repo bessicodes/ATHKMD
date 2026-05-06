@@ -2,7 +2,8 @@ import { AnimatePresence, motion } from "framer-motion";
 import { useEffect, useState } from "react";
 import { usePerformanceMode } from "@/hooks/usePerformanceMode";
 
-const SESSION_KEY = "athkmd_intro_seen";
+export const INTRO_SESSION_KEY = "athkmd_intro_seen";
+export const INTRO_DONE_EVENT = "athkmd:intro-done";
 
 export const IntroLoader = ({
   enabled,
@@ -17,19 +18,20 @@ export const IntroLoader = ({
 }) => {
   const { isMinimal, isLite } = usePerformanceMode();
   const [visible, setVisible] = useState(false);
-  const displayDuration = isLite ? 1800 : 2550;
+  const displayDuration = isLite ? 2300 : 3200;
 
   useEffect(() => {
     if (!enabled) return;
     if (typeof window === "undefined") return;
 
-    const alreadySeen = window.sessionStorage.getItem(SESSION_KEY) === "1";
+    const alreadySeen = window.sessionStorage.getItem(INTRO_SESSION_KEY) === "1";
     if (alreadySeen || isMinimal) return;
 
     setVisible(true);
     const timeout = window.setTimeout(() => {
+      window.dispatchEvent(new Event(INTRO_DONE_EVENT));
       setVisible(false);
-      window.sessionStorage.setItem(SESSION_KEY, "1");
+      window.sessionStorage.setItem(INTRO_SESSION_KEY, "1");
     }, displayDuration);
 
     return () => window.clearTimeout(timeout);
@@ -44,7 +46,7 @@ export const IntroLoader = ({
           exit={{
             opacity: 0,
             filter: "blur(6px)",
-            transition: { duration: 0.9, ease: [0.22, 1, 0.36, 1] },
+            transition: { duration: 1.2, ease: [0.22, 1, 0.36, 1] },
           }}
         >
           <motion.div
@@ -63,6 +65,13 @@ export const IntroLoader = ({
             className="relative z-10 flex flex-col items-center px-6 text-center"
             initial={{ y: 20, opacity: 0, scale: 0.985 }}
             animate={{ y: 0, opacity: 1, scale: 1 }}
+            exit={{
+              y: -120,
+              scale: 0.62,
+              opacity: 0,
+              filter: "blur(3px)",
+              transition: { duration: 1.05, ease: [0.22, 1, 0.36, 1] },
+            }}
             transition={{ duration: 0.72, ease: [0.22, 1, 0.36, 1] }}
           >
             {logoSrc ? (
@@ -74,13 +83,14 @@ export const IntroLoader = ({
                 animate={{
                   rotateY: [-12, 12, -12],
                   y: [0, -3, 0],
+                  rotateZ: [-0.4, 0.6, -0.4],
                   filter: [
                     "drop-shadow(0 0 8px rgba(255,255,255,0.22))",
                     "drop-shadow(0 0 16px rgba(255,255,255,0.42))",
                     "drop-shadow(0 0 8px rgba(255,255,255,0.22))",
                   ],
                 }}
-                transition={{ duration: 2.3, repeat: Infinity, ease: "easeInOut" }}
+                transition={{ duration: 2.8, repeat: Infinity, ease: "easeInOut" }}
               />
             ) : null}
             <p className="font-display text-5xl leading-[0.86] text-gradient md:text-6xl">

@@ -5,6 +5,7 @@ import logo from "@/assets/logo.png";
 import heroBg from "@/assets/hero-bg.jpg";
 import { useSiteContent } from "@/content/SiteContentProvider";
 import { usePerformanceMode } from "@/hooks/usePerformanceMode";
+import { INTRO_DONE_EVENT, INTRO_SESSION_KEY } from "@/components/IntroLoader";
 
 const TikTokIcon = ({ size = 18 }: { size?: number }) => (
   <svg width={size} height={size} viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
@@ -13,10 +14,11 @@ const TikTokIcon = ({ size = 18 }: { size?: number }) => (
 );
 
 export const Hero = () => {
-  const { hero, socials, visuals } = useSiteContent();
+  const { hero, socials, visuals, effects } = useSiteContent();
   const shouldReduceMotion = useReducedMotion();
   const { isMinimal, isLite, isFull } = usePerformanceMode();
   const [isMobile, setIsMobile] = useState(false);
+  const [introReady, setIntroReady] = useState(false);
   const sectionRef = useRef<HTMLElement | null>(null);
   const { scrollYProgress } = useScroll({
     target: sectionRef,
@@ -30,6 +32,29 @@ export const Hero = () => {
     media.addEventListener("change", update);
     return () => media.removeEventListener("change", update);
   }, []);
+
+  useEffect(() => {
+    if (!effects.enableIntroLoader || isMinimal) {
+      setIntroReady(true);
+      return;
+    }
+
+    const seen = window.sessionStorage.getItem(INTRO_SESSION_KEY) === "1";
+    if (seen) {
+      setIntroReady(true);
+      return;
+    }
+
+    setIntroReady(false);
+    const onIntroDone = () => setIntroReady(true);
+    const fallback = window.setTimeout(() => setIntroReady(true), 4200);
+    window.addEventListener(INTRO_DONE_EVENT, onIntroDone);
+
+    return () => {
+      window.clearTimeout(fallback);
+      window.removeEventListener(INTRO_DONE_EVENT, onIntroDone);
+    };
+  }, [effects.enableIntroLoader, isMinimal]);
 
   const bgScale = useTransform(
     scrollYProgress,
@@ -83,8 +108,12 @@ export const Hero = () => {
       >
         <motion.div
           initial={{ opacity: 0, y: -26, scale: 0.86 }}
-          animate={{ opacity: 1, y: 0, scale: 1 }}
-          transition={{ duration: 1, ease: [0.22, 1, 0.36, 1] }}
+          animate={{
+            opacity: introReady ? 1 : 0,
+            y: introReady ? 0 : 14,
+            scale: introReady ? 1 : 0.9,
+          }}
+          transition={{ duration: 1.05, ease: [0.22, 1, 0.36, 1] }}
           className="relative mx-auto mb-8 w-fit [perspective:1200px]"
         >
           <motion.div
