@@ -1,4 +1,4 @@
-import { motion } from "framer-motion";
+import { MotionConfig, motion } from "framer-motion";
 import { ArrowUp } from "lucide-react";
 import { Suspense, lazy, useEffect, useState } from "react";
 import { Navbar } from "@/components/Navbar";
@@ -9,7 +9,9 @@ import { ScrollProgress } from "@/components/ScrollProgress";
 import { InAppBrowserNotice } from "@/components/InAppBrowserNotice";
 import { StoryRail } from "@/components/StoryRail";
 import { CinematicSection } from "@/components/CinematicSection";
+import { SectionTransition } from "@/components/SectionTransition";
 import { useSiteContent } from "@/content/SiteContentProvider";
+import { usePerformanceMode } from "@/hooks/usePerformanceMode";
 
 const About = lazy(async () => ({
   default: (await import("@/components/About")).About,
@@ -26,6 +28,7 @@ const Contact = lazy(async () => ({
 
 const Index = () => {
   const { storySections } = useSiteContent();
+  const { isMinimal, isLite } = usePerformanceMode();
   const [showTop, setShowTop] = useState(false);
 
   useEffect(() => {
@@ -35,8 +38,21 @@ const Index = () => {
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
+  const aboutLabel =
+    storySections.find((section) => section.id === "about")?.label ?? "About";
+  const whatWeDoLabel =
+    storySections.find((section) => section.id === "what-we-do")?.label ??
+    "What We Do";
+  const communityLabel =
+    storySections.find((section) => section.id === "community")?.label ??
+    "Community";
+  const contactLabel =
+    storySections.find((section) => section.id === "contact")?.label ??
+    "Contact";
+
   return (
-    <main className="relative overflow-x-hidden bg-background text-foreground">
+    <MotionConfig transition={{ type: "spring", stiffness: 120, damping: 20 }}>
+      <main className="relative overflow-x-hidden bg-background text-foreground">
       <InAppBrowserNotice />
       <ScrollProgress />
       <StoryRail sections={storySections} />
@@ -46,35 +62,47 @@ const Index = () => {
       >
         <motion.div
           className="ambient-orb absolute -top-24 left-[8%] h-72 w-72"
-          animate={{ x: [0, 30, -20, 0], y: [0, -20, 10, 0] }}
-          transition={{ duration: 20, repeat: Infinity, ease: "easeInOut" }}
+          animate={
+            isMinimal
+              ? undefined
+              : { x: [0, isLite ? 16 : 30, isLite ? -10 : -20, 0], y: [0, isLite ? -10 : -20, isLite ? 6 : 10, 0] }
+          }
+          transition={{ duration: isLite ? 24 : 20, repeat: Infinity, ease: "easeInOut" }}
         />
         <motion.div
           className="ambient-orb ambient-orb-soft absolute top-[30%] right-[4%] h-96 w-96"
-          animate={{ x: [0, -20, 10, 0], y: [0, 20, -10, 0] }}
-          transition={{ duration: 24, repeat: Infinity, ease: "easeInOut" }}
+          animate={
+            isMinimal
+              ? undefined
+              : { x: [0, isLite ? -12 : -20, isLite ? 8 : 10, 0], y: [0, isLite ? 12 : 20, isLite ? -8 : -10, 0] }
+          }
+          transition={{ duration: isLite ? 28 : 24, repeat: Infinity, ease: "easeInOut" }}
         />
       </div>
 
       <Navbar />
       <Hero />
       <Marquee />
+      <SectionTransition label={aboutLabel} />
 
       <Suspense fallback={<SectionFallback />}>
         <CinematicSection>
           <About />
         </CinematicSection>
       </Suspense>
+      <SectionTransition label={whatWeDoLabel} />
       <Suspense fallback={<SectionFallback />}>
         <CinematicSection>
           <WhatWeDo />
         </CinematicSection>
       </Suspense>
+      <SectionTransition label={communityLabel} />
       <Suspense fallback={<SectionFallback />}>
         <CinematicSection>
           <Community />
         </CinematicSection>
       </Suspense>
+      <SectionTransition label={contactLabel} />
       <Suspense fallback={<SectionFallback />}>
         <CinematicSection>
           <Contact />
@@ -98,7 +126,8 @@ const Index = () => {
       >
         <ArrowUp size={18} />
       </motion.button>
-    </main>
+      </main>
+    </MotionConfig>
   );
 };
 

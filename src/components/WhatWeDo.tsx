@@ -17,19 +17,19 @@ export const WhatWeDo = () => {
   const { whatWeDo } = useSiteContent();
 
   return (
-    <section id="what-we-do" className="relative py-32 md:py-48 grain">
+    <section id="what-we-do" className="relative grain py-20 sm:py-24 md:py-40">
       <div className="container mx-auto px-6">
-        <div className="max-w-3xl mb-20">
+        <div className="mb-14 max-w-3xl md:mb-20">
           <SectionHeading eyebrow={whatWeDo.eyebrow} title={whatWeDo.title} />
         </div>
 
-        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-px bg-border">
+        <div className="grid gap-px bg-border md:grid-cols-2 lg:grid-cols-3">
           {whatWeDo.items.map((item, i) => (
             <WorkCard key={item.title} item={item} index={i} />
           ))}
 
           <div className="hidden lg:flex bg-background p-10 md:p-12 items-center justify-center">
-            <p className="font-display text-2xl text-gradient text-center leading-tight">
+            <p className="text-gradient text-center font-display text-2xl leading-tight">
               More.
               <br />
               Always.
@@ -74,7 +74,7 @@ const WorkCard = ({
             ? `perspective(900px) rotateX(${(50 - pointer.y) * 0.08}deg) rotateY(${(pointer.x - 50) * 0.09}deg)`
             : "perspective(900px) rotateX(0deg) rotateY(0deg)",
         }}
-        className="relative p-10 transition-transform duration-200 md:p-12"
+        className="relative p-7 transition-transform duration-200 sm:p-9 md:p-12"
       >
         <div
           className="pointer-events-none absolute inset-0 opacity-0 transition-opacity duration-500 group-hover:opacity-100"
@@ -85,17 +85,17 @@ const WorkCard = ({
         <div className="relative">
           <div className="mb-12 flex items-start justify-between">
             <Icon
-              className="h-8 w-8 text-muted-foreground transition-all duration-500 group-hover:scale-110 group-hover:text-foreground"
+            className="h-7 w-7 text-muted-foreground transition-all duration-500 group-hover:scale-110 group-hover:text-foreground md:h-8 md:w-8"
               strokeWidth={1.2}
             />
             <span className="font-display text-sm text-muted-foreground">
               0{index + 1}
             </span>
           </div>
-          <h3 className="mb-3 font-display text-3xl tracking-wide md:text-4xl">
+          <h3 className="mb-3 font-display text-[1.95rem] tracking-wide md:text-4xl">
             {item.title}
           </h3>
-          <p className="leading-relaxed text-muted-foreground">{item.desc}</p>
+          <p className="text-[0.95rem] leading-relaxed text-muted-foreground md:text-base">{item.desc}</p>
           <div className="mt-8 h-px w-12 bg-foreground/30 transition-all duration-500 group-hover:w-full group-hover:bg-foreground" />
         </div>
       </div>

@@ -12,7 +12,7 @@ export const Navbar = () => {
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 20);
     onScroll();
-    window.addEventListener("scroll", onScroll);
+    window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
@@ -44,13 +44,13 @@ export const Navbar = () => {
       initial={{ y: -40, opacity: 0 }}
       animate={{ y: 0, opacity: 1 }}
       transition={{ duration: 0.6, ease: "easeOut" }}
-      className={`fixed top-0 inset-x-0 z-50 pt-[env(safe-area-inset-top)] transition-all duration-500 ${
-        scrolled ? "bg-background/80 backdrop-blur-xl border-b border-border" : "bg-transparent"
+      className={`fixed inset-x-0 top-0 z-50 pt-[env(safe-area-inset-top)] transition-all duration-500 ${
+        scrolled ? "border-b border-border bg-background/80 backdrop-blur-xl" : "bg-transparent"
       }`}
     >
       <nav className="container mx-auto flex items-center justify-between px-4 py-3 md:px-8 md:py-4">
         <a href="#home" className="group flex items-center">
-          <span className="font-display text-[1.05rem] tracking-[0.08em] text-foreground transition-opacity group-hover:opacity-80 sm:text-xl md:text-lg lg:text-xl">
+          <span className="font-display text-[0.95rem] tracking-[0.08em] text-foreground transition-opacity group-hover:opacity-80 sm:text-xl md:text-lg lg:text-xl">
             ATHLETE KINGDOM
           </span>
         </a>
@@ -85,7 +85,7 @@ export const Navbar = () => {
         <button
           aria-label="Toggle menu"
           onClick={() => setOpen((o) => !o)}
-          className="md:hidden text-foreground p-2"
+          className="rounded-md p-2 text-foreground transition-colors hover:bg-secondary md:hidden"
         >
           {open ? <X size={24} /> : <Menu size={24} />}
         </button>
@@ -97,17 +97,17 @@ export const Navbar = () => {
             initial={{ opacity: 0, height: 0 }}
             animate={{ opacity: 1, height: "auto" }}
             exit={{ opacity: 0, height: 0 }}
-            className="md:hidden overflow-hidden bg-background/95 backdrop-blur-xl border-t border-border"
+            className="overflow-hidden border-t border-border bg-background/95 backdrop-blur-xl md:hidden"
           >
-            <ul className="flex flex-col p-6 gap-5">
+            <ul className="flex flex-col gap-4 p-5">
               {navItems.map((l) => (
                 <li key={l.href}>
                   <a
                     onClick={() => setOpen(false)}
                     href={l.href}
-                    className={`font-display text-2xl tracking-widest transition-colors ${
+                    className={`block rounded-md px-2 py-1 font-display text-2xl tracking-widest transition-colors ${
                       activeSection === l.href.replace("#", "")
-                        ? "text-foreground"
+                        ? "bg-secondary/60 text-foreground"
                         : "text-muted-foreground hover:text-foreground"
                     }`}
                   >

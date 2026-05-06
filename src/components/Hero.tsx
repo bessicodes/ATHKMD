@@ -4,6 +4,7 @@ import { Instagram, Youtube } from "lucide-react";
 import logo from "@/assets/logo.png";
 import heroBg from "@/assets/hero-bg.jpg";
 import { useSiteContent } from "@/content/SiteContentProvider";
+import { usePerformanceMode } from "@/hooks/usePerformanceMode";
 
 const TikTokIcon = ({ size = 18 }: { size?: number }) => (
   <svg width={size} height={size} viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
@@ -14,6 +15,7 @@ const TikTokIcon = ({ size = 18 }: { size?: number }) => (
 export const Hero = () => {
   const { hero, socials } = useSiteContent();
   const shouldReduceMotion = useReducedMotion();
+  const { isMinimal, isLite, isFull } = usePerformanceMode();
   const [isMobile, setIsMobile] = useState(false);
   const sectionRef = useRef<HTMLElement | null>(null);
   const { scrollYProgress } = useScroll({
@@ -29,10 +31,22 @@ export const Hero = () => {
     return () => media.removeEventListener("change", update);
   }, []);
 
-  const bgScale = useTransform(scrollYProgress, [0, 1], [1, isMobile ? 1.08 : 1.18]);
-  const bgY = useTransform(scrollYProgress, [0, 1], [0, isMobile ? 70 : 130]);
-  const contentY = useTransform(scrollYProgress, [0, 1], [0, isMobile ? 30 : 75]);
-  const glowOpacity = useTransform(scrollYProgress, [0, 1], [0.35, 0.05]);
+  const bgScale = useTransform(
+    scrollYProgress,
+    [0, 1],
+    [1, isMinimal ? 1.02 : isMobile ? 1.06 : 1.14]
+  );
+  const bgY = useTransform(
+    scrollYProgress,
+    [0, 1],
+    [0, isMinimal ? 22 : isMobile ? 55 : 115]
+  );
+  const contentY = useTransform(
+    scrollYProgress,
+    [0, 1],
+    [0, isMinimal ? 10 : isMobile ? 26 : 70]
+  );
+  const glowOpacity = useTransform(scrollYProgress, [0, 1], [isMinimal ? 0.2 : 0.32, 0.06]);
 
   return (
     <section
@@ -49,6 +63,7 @@ export const Hero = () => {
           loading="eager"
           decoding="async"
           fetchPriority="high"
+          sizes="100vw"
           style={{ scale: bgScale, y: bgY }}
           className="h-full w-full object-cover opacity-55"
         />
@@ -61,7 +76,7 @@ export const Hero = () => {
 
       <motion.div
         style={{ y: contentY }}
-        className="relative z-10 container mx-auto px-6 pb-16 pt-36 text-center md:pt-24"
+        className="relative z-10 container mx-auto px-4 pb-14 pt-28 text-center sm:px-6 sm:pt-32 md:pt-24"
       >
         <motion.div
           initial={{ opacity: 0, y: -26, scale: 0.86 }}
@@ -73,7 +88,7 @@ export const Hero = () => {
             aria-hidden="true"
             className="pointer-events-none absolute -inset-10 rounded-full bg-[radial-gradient(circle,hsl(0_0%_100%/.28),transparent_65%)] blur-2xl"
             animate={
-              shouldReduceMotion || isMobile
+              shouldReduceMotion || isMinimal
                 ? { opacity: [0.24, 0.36, 0.24] }
                 : { opacity: [0.2, 0.6, 0.2], scale: [0.92, 1.08, 0.92] }
             }
@@ -83,17 +98,17 @@ export const Hero = () => {
           <motion.div
             className="relative [transform-style:preserve-3d]"
             animate={
-              shouldReduceMotion
+              shouldReduceMotion || isMinimal
                 ? undefined
-                : isMobile
+                : isLite
                   ? {
-                      rotateY: [-12, 12, -12],
-                      x: [-6, 6, -6],
-                      rotateZ: [-0.6, 0.6, -0.6],
+                      rotateY: [-10, 10, -10],
+                      x: [-4, 4, -4],
+                      rotateZ: [-0.4, 0.4, -0.4],
                       filter: [
-                        "drop-shadow(0 0 10px rgba(255,255,255,0.22))",
-                        "drop-shadow(0 0 16px rgba(255,255,255,0.38))",
-                        "drop-shadow(0 0 10px rgba(255,255,255,0.22))",
+                        "drop-shadow(0 0 10px rgba(255,255,255,0.2))",
+                        "drop-shadow(0 0 14px rgba(255,255,255,0.3))",
+                        "drop-shadow(0 0 10px rgba(255,255,255,0.2))",
                       ],
                     }
                   : {
@@ -107,7 +122,7 @@ export const Hero = () => {
                       ],
                     }
             }
-            transition={{ duration: isMobile ? 5.2 : 4.8, repeat: Infinity, ease: "easeInOut" }}
+            transition={{ duration: isLite ? 5.3 : 4.8, repeat: Infinity, ease: "easeInOut" }}
           >
             <motion.img
               src={logo}
@@ -117,8 +132,9 @@ export const Hero = () => {
               loading="eager"
               decoding="async"
               fetchPriority="high"
-              className="w-24 md:w-32 select-none"
-              animate={shouldReduceMotion || isMobile ? undefined : { rotateX: [0, 5, 0, -5, 0] }}
+              sizes="(max-width: 768px) 96px, 128px"
+              className="w-20 select-none sm:w-24 md:w-32"
+              animate={shouldReduceMotion || isLite ? undefined : { rotateX: [0, 5, 0, -5, 0] }}
               transition={{ duration: 5.4, repeat: Infinity, ease: "easeInOut" }}
             />
           </motion.div>
@@ -126,11 +142,7 @@ export const Hero = () => {
           <motion.div
             aria-hidden="true"
             className="pointer-events-none absolute left-1/2 top-1/2 h-[3px] w-40 -translate-x-1/2 -translate-y-1/2 bg-gradient-to-r from-transparent via-white/75 to-transparent blur-[2px]"
-            animate={
-              shouldReduceMotion || isMobile
-                ? { opacity: [0.18, 0.4, 0.18] }
-                : { x: [-26, 26, -26], opacity: [0.2, 0.75, 0.2] }
-            }
+            animate={shouldReduceMotion || isLite ? { opacity: [0.18, 0.36, 0.18] } : { x: [-26, 26, -26], opacity: [0.2, 0.75, 0.2] }}
             transition={{ duration: 2.4, repeat: Infinity, ease: "easeInOut" }}
           />
         </motion.div>
@@ -139,7 +151,7 @@ export const Hero = () => {
           initial={{ opacity: 0, y: 10 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.3, duration: 0.8 }}
-          className="mb-4 text-[10px] uppercase tracking-[0.38em] text-muted-foreground sm:mb-6 sm:text-sm sm:tracking-[0.5em]"
+          className="mb-4 text-[10px] uppercase tracking-[0.3em] text-muted-foreground sm:mb-6 sm:text-sm sm:tracking-[0.5em]"
         >
           {hero.eyebrow}
         </motion.p>
@@ -148,7 +160,7 @@ export const Hero = () => {
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.4, duration: 1, ease: [0.22, 1, 0.36, 1] }}
-          className="font-display text-[17vw] leading-[0.85] text-foreground md:text-[12vw] md:text-gradient lg:text-[10rem]"
+          className="font-display text-[clamp(3.35rem,16vw,10rem)] leading-[0.84] text-foreground md:text-gradient"
         >
           {hero.titleTop}
           <br />
@@ -159,7 +171,7 @@ export const Hero = () => {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.9, duration: 0.8 }}
-          className="mt-6 flex flex-wrap items-center justify-center gap-2.5 md:gap-4"
+          className="mx-auto mt-6 grid w-full max-w-3xl grid-cols-1 gap-2.5 sm:grid-cols-3 md:mt-7 md:flex md:w-auto md:flex-wrap md:justify-center md:gap-4"
         >
           <SocialButton href={socials.youtube} label="YouTube" icon={<Youtube size={18} />} />
           <SocialButton href={socials.tiktok} label="TikTok" icon={<TikTokIcon />} />
@@ -171,11 +183,13 @@ export const Hero = () => {
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ delay: 1.6, duration: 1 }}
-        className="absolute bottom-8 left-1/2 -translate-x-1/2 text-[10px] uppercase tracking-[0.4em] text-muted-foreground"
+        className="absolute bottom-5 left-1/2 -translate-x-1/2 text-[10px] uppercase tracking-[0.35em] text-muted-foreground md:bottom-8"
       >
         Scroll
         <div className="mt-2 h-10 w-px bg-gradient-to-b from-foreground/50 to-transparent mx-auto" />
       </motion.div>
+
+      {isFull ? <div className="cinematic-grid pointer-events-none absolute inset-0" /> : null}
     </section>
   );
 };
@@ -185,7 +199,7 @@ const SocialButton = ({ href, label, icon }: { href: string; label: string; icon
     href={href}
     target="_blank"
     rel="noopener noreferrer"
-    className="group relative inline-flex items-center gap-2 border border-border bg-background/40 px-4 py-2.5 text-[11px] uppercase tracking-[0.17em] text-foreground backdrop-blur-sm transition-all duration-300 hover:scale-[1.03] hover:border-foreground hover:bg-foreground hover:text-background md:px-6 md:py-3 md:text-sm md:tracking-[0.2em]"
+    className="group relative inline-flex w-full items-center justify-center gap-2 border border-border bg-background/40 px-4 py-2.5 text-[11px] uppercase tracking-[0.17em] text-foreground backdrop-blur-sm transition-all duration-300 hover:scale-[1.01] hover:border-foreground hover:bg-foreground hover:text-background sm:w-auto md:px-6 md:py-3 md:text-sm md:tracking-[0.2em]"
   >
     {icon}
     <span>{label}</span>
