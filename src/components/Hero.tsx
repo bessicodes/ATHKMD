@@ -211,7 +211,6 @@ export const Hero = () => {
         transition={{ delay: 1.6, duration: 1 }}
         className="absolute bottom-5 left-1/2 -translate-x-1/2 text-[10px] uppercase tracking-[0.35em] text-muted-foreground md:bottom-8"
       >
-        Scroll
         <div className="mt-2 h-10 w-px bg-gradient-to-b from-foreground/50 to-transparent mx-auto" />
       </motion.div>
 
