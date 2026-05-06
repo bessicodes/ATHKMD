@@ -10,6 +10,7 @@ import { Community } from "@/components/Community";
 import { Contact } from "@/components/Contact";
 import { Footer } from "@/components/Footer";
 import { ScrollProgress } from "@/components/ScrollProgress";
+import { InAppBrowserNotice } from "@/components/InAppBrowserNotice";
 
 const Index = () => {
   const [showTop, setShowTop] = useState(false);
@@ -23,6 +24,7 @@ const Index = () => {
 
   return (
     <main className="relative overflow-x-hidden bg-background text-foreground">
+      <InAppBrowserNotice />
       <ScrollProgress />
       <div aria-hidden="true" className="pointer-events-none fixed inset-0 -z-10 overflow-hidden">
         <motion.div
