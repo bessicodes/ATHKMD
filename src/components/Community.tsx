@@ -2,6 +2,9 @@ import { motion } from "framer-motion";
 import { Instagram, Youtube, ArrowUpRight } from "lucide-react";
 import communityBg from "@/assets/community-bg.jpg";
 import { SOCIALS } from "@/lib/socials";
+import { COMMUNITY } from "@/content/siteContent";
+
+const [communityTitleTop, communityTitleBottom] = COMMUNITY.title.split("\n");
 
 export const Community = () => (
   <section id="community" className="relative py-32 md:py-48 overflow-hidden grain">
@@ -27,7 +30,7 @@ export const Community = () => (
         transition={{ duration: 0.6 }}
         className="text-xs uppercase tracking-[0.5em] text-muted-foreground mb-6"
       >
-        The Movement
+        {COMMUNITY.eyebrow}
       </motion.p>
 
       <motion.h2
@@ -37,9 +40,9 @@ export const Community = () => (
         transition={{ duration: 0.9 }}
         className="font-display text-5xl md:text-8xl lg:text-9xl leading-[0.9] text-gradient"
       >
-        Join the
+        {communityTitleTop}
         <br />
-        Kingdom.
+        {communityTitleBottom}
       </motion.h2>
 
       <motion.p
@@ -49,8 +52,7 @@ export const Community = () => (
         transition={{ duration: 0.8, delay: 0.3 }}
         className="mt-8 max-w-2xl mx-auto text-base text-muted-foreground leading-relaxed md:text-lg"
       >
-        Whether you are an athlete chasing greatness or a fan who lives for the moment - this is your
-        home. Follow the movement, share the stories, become part of something bigger.
+        {COMMUNITY.body}
       </motion.p>
 
       <motion.div
@@ -72,7 +74,7 @@ export const Community = () => (
         transition={{ duration: 0.8, delay: 0.6 }}
         className="mt-10 flex flex-wrap justify-center gap-3"
       >
-        {["Daily Content", "Athlete Stories", "Motivation & Growth"].map((pill) => (
+        {COMMUNITY.pills.map((pill) => (
           <span
             key={pill}
             className="rounded-full border border-border bg-background/50 px-4 py-2 text-[11px] uppercase tracking-[0.24em] text-muted-foreground backdrop-blur"

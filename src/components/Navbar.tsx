@@ -1,13 +1,7 @@
 import { useEffect, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Menu, X } from "lucide-react";
-
-const links = [
-  { href: "#home", label: "Home" },
-  { href: "#about", label: "About" },
-  { href: "#community", label: "Community" },
-  { href: "#contact", label: "Contact" },
-];
+import { NAV_ITEMS } from "@/content/siteContent";
 
 export const Navbar = () => {
   const [scrolled, setScrolled] = useState(false);
@@ -22,7 +16,7 @@ export const Navbar = () => {
   }, []);
 
   useEffect(() => {
-    const ids = links.map((l) => l.href.replace("#", ""));
+    const ids = NAV_ITEMS.map((l) => l.href.replace("#", ""));
     const sections = ids
       .map((id) => document.getElementById(id))
       .filter((el): el is HTMLElement => Boolean(el));
@@ -61,7 +55,7 @@ export const Navbar = () => {
         </a>
 
         <ul className="hidden md:flex items-center gap-10">
-          {links.map((l) => (
+          {NAV_ITEMS.map((l) => (
             <li key={l.href}>
               <a
                 href={l.href}
@@ -105,7 +99,7 @@ export const Navbar = () => {
             className="md:hidden overflow-hidden bg-background/95 backdrop-blur-xl border-t border-border"
           >
             <ul className="flex flex-col p-6 gap-5">
-              {links.map((l) => (
+              {NAV_ITEMS.map((l) => (
                 <li key={l.href}>
                   <a
                     onClick={() => setOpen(false)}

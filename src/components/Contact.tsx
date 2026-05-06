@@ -2,11 +2,12 @@ import { motion } from "framer-motion";
 import { Mail, ArrowUpRight } from "lucide-react";
 import { SOCIALS } from "@/lib/socials";
 import { SectionHeading } from "./SectionHeading";
+import { CONTACT } from "@/content/siteContent";
 
 export const Contact = () => (
   <section id="contact" className="relative py-32 md:py-48 grain">
     <div className="container mx-auto px-6 max-w-5xl">
-      <SectionHeading eyebrow="Contact" title={"Let's\nconnect."} />
+      <SectionHeading eyebrow={CONTACT.eyebrow} title={CONTACT.title} />
 
       <motion.p
         initial={{ opacity: 0, y: 20 }}
@@ -15,10 +16,7 @@ export const Contact = () => (
         transition={{ duration: 0.8, delay: 0.2 }}
         className="mt-10 max-w-3xl text-base text-muted-foreground leading-relaxed md:text-lg"
       >
-        Get in touch with Athlete Kingdom for collaborations, questions, copyright inquiries, or to
-        connect with the sports community. Reach out via email or follow Athlete Kingdom on
-        Instagram, TikTok, and YouTube. Whether you're an athlete, creator, or sports fan, this is
-        the place to connect and become part of The Home of Sports.
+        {CONTACT.body}
       </motion.p>
 
       <motion.a

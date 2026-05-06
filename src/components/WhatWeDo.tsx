@@ -1,25 +1,17 @@
 import { motion } from "framer-motion";
-import { Flame, Trophy, TrendingUp, Sparkles, Film } from "lucide-react";
 import { useState } from "react";
 import { SectionHeading } from "./SectionHeading";
-
-const items = [
-  { icon: Flame, title: "Inspiring Stories", desc: "Real athletes. Real journeys. The grit behind the glory." },
-  { icon: Trophy, title: "Iconic Sporting Moments", desc: "The plays, the wins, the chills - preserved cinematically." },
-  { icon: TrendingUp, title: "Athlete Growth", desc: "Educational clips and insights to sharpen your craft." },
-  { icon: Sparkles, title: "Motivational Clips", desc: "Daily fuel for the dreamers, builders, and grinders." },
-  { icon: Film, title: "Creative Sports Edits", desc: "Bold cuts, sharp cinematography, unforgettable energy." },
-];
+import { WHAT_WE_DO } from "@/content/siteContent";
 
 export const WhatWeDo = () => (
-  <section className="relative py-32 md:py-48 grain">
+  <section id="what-we-do" className="relative py-32 md:py-48 grain">
     <div className="container mx-auto px-6">
       <div className="max-w-3xl mb-20">
-        <SectionHeading eyebrow="What We Do" title={"The craft\nbehind the\nkingdom."} />
+        <SectionHeading eyebrow={WHAT_WE_DO.eyebrow} title={WHAT_WE_DO.title} />
       </div>
 
       <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-px bg-border">
-        {items.map((item, i) => (
+        {WHAT_WE_DO.items.map((item, i) => (
           <WorkCard
             key={item.title}
             item={item}
@@ -45,7 +37,7 @@ const WorkCard = ({
   item,
   index,
 }: {
-  item: (typeof items)[number];
+  item: (typeof WHAT_WE_DO.items)[number];
   index: number;
 }) => {
   const [pointer, setPointer] = useState({ x: 50, y: 50, active: false });

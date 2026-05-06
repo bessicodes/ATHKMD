@@ -4,6 +4,7 @@ import { Instagram, Youtube } from "lucide-react";
 import logo from "@/assets/logo.png";
 import heroBg from "@/assets/hero-bg.jpg";
 import { SOCIALS } from "@/lib/socials";
+import { HERO } from "@/content/siteContent";
 
 const TikTokIcon = ({ size = 18 }: { size?: number }) => (
   <svg width={size} height={size} viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
@@ -140,7 +141,7 @@ export const Hero = () => {
           transition={{ delay: 0.3, duration: 0.8 }}
           className="mb-4 text-[10px] uppercase tracking-[0.38em] text-muted-foreground sm:mb-6 sm:text-sm sm:tracking-[0.5em]"
         >
-          Est. The Home of Sports
+          {HERO.eyebrow}
         </motion.p>
 
         <motion.h1
@@ -149,9 +150,9 @@ export const Hero = () => {
           transition={{ delay: 0.4, duration: 1, ease: [0.22, 1, 0.36, 1] }}
           className="font-display text-[17vw] leading-[0.85] text-foreground md:text-[12vw] md:text-gradient lg:text-[10rem]"
         >
-          ATHLETE
+          {HERO.titleTop}
           <br />
-          KINGDOM
+          {HERO.titleBottom}
         </motion.h1>
 
         <motion.div

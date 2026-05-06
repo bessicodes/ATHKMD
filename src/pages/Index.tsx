@@ -1,16 +1,28 @@
 import { motion } from "framer-motion";
 import { ArrowUp } from "lucide-react";
-import { useEffect, useState } from "react";
+import { Suspense, lazy, useEffect, useState } from "react";
 import { Navbar } from "@/components/Navbar";
 import { Hero } from "@/components/Hero";
 import { Marquee } from "@/components/Marquee";
-import { About } from "@/components/About";
-import { WhatWeDo } from "@/components/WhatWeDo";
-import { Community } from "@/components/Community";
-import { Contact } from "@/components/Contact";
 import { Footer } from "@/components/Footer";
 import { ScrollProgress } from "@/components/ScrollProgress";
 import { InAppBrowserNotice } from "@/components/InAppBrowserNotice";
+import { StoryRail } from "@/components/StoryRail";
+import { CinematicSection } from "@/components/CinematicSection";
+import { STORY_SECTIONS } from "@/content/siteContent";
+
+const About = lazy(async () => ({
+  default: (await import("@/components/About")).About,
+}));
+const WhatWeDo = lazy(async () => ({
+  default: (await import("@/components/WhatWeDo")).WhatWeDo,
+}));
+const Community = lazy(async () => ({
+  default: (await import("@/components/Community")).Community,
+}));
+const Contact = lazy(async () => ({
+  default: (await import("@/components/Contact")).Contact,
+}));
 
 const Index = () => {
   const [showTop, setShowTop] = useState(false);
@@ -26,7 +38,11 @@ const Index = () => {
     <main className="relative overflow-x-hidden bg-background text-foreground">
       <InAppBrowserNotice />
       <ScrollProgress />
-      <div aria-hidden="true" className="pointer-events-none fixed inset-0 -z-10 overflow-hidden">
+      <StoryRail sections={STORY_SECTIONS} />
+      <div
+        aria-hidden="true"
+        className="pointer-events-none fixed inset-0 -z-10 overflow-hidden"
+      >
         <motion.div
           className="ambient-orb absolute -top-24 left-[8%] h-72 w-72"
           animate={{ x: [0, 30, -20, 0], y: [0, -20, 10, 0] }}
@@ -38,13 +54,32 @@ const Index = () => {
           transition={{ duration: 24, repeat: Infinity, ease: "easeInOut" }}
         />
       </div>
+
       <Navbar />
       <Hero />
       <Marquee />
-      <About />
-      <WhatWeDo />
-      <Community />
-      <Contact />
+
+      <Suspense fallback={<SectionFallback />}>
+        <CinematicSection>
+          <About />
+        </CinematicSection>
+      </Suspense>
+      <Suspense fallback={<SectionFallback />}>
+        <CinematicSection>
+          <WhatWeDo />
+        </CinematicSection>
+      </Suspense>
+      <Suspense fallback={<SectionFallback />}>
+        <CinematicSection>
+          <Community />
+        </CinematicSection>
+      </Suspense>
+      <Suspense fallback={<SectionFallback />}>
+        <CinematicSection>
+          <Contact />
+        </CinematicSection>
+      </Suspense>
+
       <Footer />
 
       <motion.button
@@ -65,5 +100,12 @@ const Index = () => {
     </main>
   );
 };
+
+const SectionFallback = () => (
+  <div
+    className="h-40 w-full border-y border-border/40 bg-background/40"
+    aria-hidden="true"
+  />
+);
 
 export default Index;
